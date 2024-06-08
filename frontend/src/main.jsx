@@ -7,16 +7,30 @@ import { ThemeProvider } from "@mui/material";
 import { theme } from "./theme";
 import StoreProvider from "./StoreProvider";
 import Profile from "./Profile";
-
+import Home from "./Home";
+import Dashboard from "./Dashboard";
+import Signup from "./Signup";
 const router = createBrowserRouter([
     {
         path: "/",
+        element: <Home />,
+    },
+    {
+        path: "/profile",
+        element: <Profile />,
+    },
+    {
+        path: "/dashboard",
+        element: <Dashboard />,
+    },
+    {
+        path: "/login",
         element: <Login />,
     },
     {
-      path: "/profile",
-      element: <Profile />,
-  },
+        path: "/signup",
+        element: <Signup />,
+    },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

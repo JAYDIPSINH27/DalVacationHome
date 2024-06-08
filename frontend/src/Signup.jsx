@@ -1,11 +1,12 @@
+import { Button, TextField} from '@mui/material'
 import React, { useState } from 'react'
-import { Button, TextField,Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom';
-import { authenticate } from './services/authenticate';
+import { useNavigate } from 'react-router-dom'
+import {CognitoUserAttribute } from 'amazon-cognito-identity-js';
+
+
 import userpool from './config/userpool';
 
-
-const Login = () => {
+const Signup = () => {
 
   const Navigate = useNavigate();
 
@@ -13,7 +14,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [emailErr, setEmailErr] = useState('');
   const [passwordErr, setPasswordErr] = useState('');
-  const [loginErr,setLoginErr]=useState('');
 
   const formInputChange = (formField, value) => {
     if (formField === "email") {
@@ -25,52 +25,63 @@ const Login = () => {
   };
 
   const validation = () => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve,reject)=>{
       if (email === '' && password === '') {
         setEmailErr("Email is Required");
         setPasswordErr("Password is required")
-        resolve({ email: "Email is Required", password: "Password is required" });
+        resolve({email:"Email is Required",password:"Password is required"});
       }
       else if (email === '') {
         setEmailErr("Email is Required")
-        resolve({ email: "Email is Required", password: "" });
+        resolve({email:"Email is Required",password:""});
       }
       else if (password === '') {
         setPasswordErr("Password is required")
-        resolve({ email: "", password: "Password is required" });
+        resolve({email:"",password:"Password is required"});
       }
       else if (password.length < 6) {
         setPasswordErr("must be 6 character")
-        resolve({ email: "", password: "must be 6 character" });
+        resolve({email:"",password:"must be 6 character"});
       }
-      else {
-        resolve({ email: "", password: "" });
+      else{
+        resolve({email:"",password:""});
       }
+      reject('')
     });
   };
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     setEmailErr("");
     setPasswordErr("");
     validation()
       .then((res) => {
         if (res.email === '' && res.password === '') {
-          authenticate(email,password)
-          .then((data)=>{
-            setLoginErr('');
-            Navigate('/dashboard');
-          },(err)=>{
-            console.log(err);
-            setLoginErr(err.message)
-          })
-          .catch(err=>console.log(err))
+          const attributeList = [];
+          attributeList.push(
+            new CognitoUserAttribute({
+              Name: 'email',
+              Value: email,
+            })
+          );
+          let username=email;
+          userpool.signUp(username, password, attributeList, null, (err, data) => {
+            if (err) {
+              console.log(err);
+              alert("Couldn't sign up");
+            } else {
+              console.log(data);
+              alert('User Added Successfully');
+              console.log(email)
+              Navigate('/verify', { state: { email: data.user.username } });
+            }
+          });
         }
       }, err => console.log(err))
       .catch(err => console.log(err));
   }
 
   return (
-    <div className="login">
+    <div className="signup">
 
       <div className='form'>
         <div className="formfield">
@@ -91,13 +102,12 @@ const Login = () => {
           />
         </div>
         <div className='formfield'>
-          <Button type='submit' variant='contained' onClick={handleClick}>Login</Button>
+          <Button type='submit' variant='contained' onClick={handleClick}>Signup</Button>
         </div>
-        <Typography variant="body">{loginErr}</Typography>
       </div>
 
     </div>
   )
 }
 
-export default Login
+export default Signup
