@@ -8,7 +8,11 @@ export const theme = createTheme({
         light: '#31363F',
         dark: '#00000'
       },
-      secondary: purple,
+      secondary: {
+        main: '#00ADB5',
+        light: '#00ADB5',
+        dark: '#00ADB5'
+      },
     },
   });
   
