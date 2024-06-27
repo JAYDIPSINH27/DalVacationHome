@@ -46,8 +46,8 @@ const AppRouter = ({ loggedInRole }) => {
                     element={
                         <PrivateRoute isAuthenticated={loggedInRole}>
                             {loggedInRole === "client" ? (
-                                <Navigate to="/app/client" />
-                            ) : <Navigate to="/app/agent" />
+                                <Navigate to="/home" />
+                            ) : <Navigate to="/dashboard" />
                             }
                         </PrivateRoute>
                     }
@@ -68,6 +68,7 @@ const AppRouter = ({ loggedInRole }) => {
                         </PrivateRoute>
                     }
                 />
+                <Route path="/dashboard" element={<AgentDashboard/>} />
                 <Route path="*" element={<PageNotFound/>} />
             </Routes>
         </BrowserRouter>
