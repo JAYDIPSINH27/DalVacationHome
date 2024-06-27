@@ -17,6 +17,7 @@ import AuthenticationContextProvider, { AuthenticationContext } from "./Authenti
 import Register from "./Register";
 import LandingPage from "./pages/LandingPage";
 import RoomDetail from "./components/RoomDetail";
+import PageNotFound from "./components/PageNotFound";
 const queryClient = new QueryClient();
 
 const PrivateRoute = ({ children, isAuthenticated }) => {
@@ -45,8 +46,8 @@ const AppRouter = ({ loggedInRole }) => {
                     element={
                         <PrivateRoute isAuthenticated={loggedInRole}>
                             {loggedInRole === "client" ? (
-                                <Navigate to="/app/client" />
-                            ) : <Navigate to="/app/agent" />
+                                <Navigate to="/home" />
+                            ) : <Navigate to="/dashboard" />
                             }
                         </PrivateRoute>
                     }
@@ -67,6 +68,8 @@ const AppRouter = ({ loggedInRole }) => {
                         </PrivateRoute>
                     }
                 />
+                <Route path="/dashboard" element={<AgentDashboard/>} />
+                <Route path="*" element={<PageNotFound/>} />
             </Routes>
         </BrowserRouter>
     );

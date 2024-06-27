@@ -1,9 +1,9 @@
 import Room from '../assets/room.jpg';
 
-const dummyRooms = [
+export const dummyRooms = [
     {
       id: '1',
-      name: 'Deluxe Ocean View',
+      name: 'Guest Room 1',
       description: 'Spacious room with a stunning view of the ocean. Perfect for couples or small families.',
       price: 250,
       capacity: 3,
@@ -12,7 +12,7 @@ const dummyRooms = [
     },
     {
       id: '2',
-      name: 'Family Suite',
+      name: 'Guest Room 2',
       description: 'Large suite with separate living area and two bedrooms. Ideal for families or groups.',
       price: 400,
       capacity: 6,
@@ -21,7 +21,7 @@ const dummyRooms = [
     },
     {
       id: '3',
-      name: 'Cozy Mountain Cabin',
+      name: 'Guest Room 3',
       description: 'Rustic cabin with fireplace and mountain views. Perfect for a romantic getaway.',
       price: 180,
       capacity: 2,
@@ -30,7 +30,7 @@ const dummyRooms = [
     },
     {
       id: '4',
-      name: 'Luxury Penthouse',
+      name: 'Guest Room 4',
       description: 'Top floor penthouse with panoramic city views, jacuzzi, and private terrace.',
       price: 800,
       capacity: 4,
@@ -39,7 +39,7 @@ const dummyRooms = [
     },
     {
       id: '5',
-      name: 'Beachfront Bungalow',
+      name: 'Guest Room 5',
       description: 'Charming bungalow steps away from the beach. Includes private patio and outdoor shower.',
       price: 300,
       capacity: 3,
