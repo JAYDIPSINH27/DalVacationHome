@@ -17,6 +17,9 @@ import ClientDashboard from "./pages/ClientDashboard";
 import AgentDashboard from "./pages/AgentDashboard";
 import AuthenticationContextProvider, { AuthenticationContext } from "./AuthenticationContextProvider";
 import Register from "./Register";
+import LandingPage from "./pages/LandingPage";
+import RoomDetail from "./components/RoomDetail";
+import PageNotFound from "./components/PageNotFound";
 const queryClient = new QueryClient();
 
 const PrivateRoute = ({ children, isAuthenticated }) => {
@@ -33,9 +36,11 @@ const AppRouter = ({ loggedInRole }) => {
                 <Route
                     path="/"
                     element={
-                        !loggedInRole ? <Navigate to="/login" /> : <Navigate to="/app" />
+                        !loggedInRole ? <Navigate to="/home" /> : <Navigate to="/app" />
                     }
                 />
+                <Route path="/home" element={<LandingPage/>} />
+                <Route path="/room/:roomId" element={<RoomDetail />} />
                 <Route path="/login" element={<SignIn />} />,
                 <Route path="/register" element={<Register />} />,
                 <Route
@@ -43,10 +48,9 @@ const AppRouter = ({ loggedInRole }) => {
                     element={
                         <PrivateRoute isAuthenticated={loggedInRole}>
                             {loggedInRole === "client" ? (
-                                <Navigate to="/app/client" />
-                            ) : (
-                                <Navigate to="/app/agent" />
-                            )}
+                                <Navigate to="/home" />
+                            ) : <Navigate to="/dashboard" />
+                            }
                         </PrivateRoute>
                     }
                 />
@@ -66,6 +70,8 @@ const AppRouter = ({ loggedInRole }) => {
                         </PrivateRoute>
                     }
                 />
+                <Route path="/dashboard" element={<AgentDashboard/>} />
+                <Route path="*" element={<PageNotFound/>} />
             </Routes>
         </BrowserRouter>
     );

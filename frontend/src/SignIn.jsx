@@ -8,9 +8,7 @@ import CustomInput from "./components/CustomInput";
 import CustomButton from "./components/CustomButton";
 import { getAwsCredentials, getCognitoUser } from "./CognitoHelper";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import { AuthenticationContext } from "./AuthenticationContextProvider";
-
+import Hero from './assets/hero.svg'
 const login_schema = yup
     .object({
         username: yup.string().required("Username is required"),
@@ -144,8 +142,8 @@ const SignIn = () => {
                 <div className="basis-1/2">
                     {/* Photo by <a href="https://unsplash.com/@ollipexxer?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Oliver Pecker</a> on <a href="https://unsplash.com/photos/jet-black-iphone-7-beside-analog-watch-HONJP8DyiSM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a> */}
                     <img
-                        className="bg-black h-full w-full rounded-3xl object-contain"
-                        src="/assets/login_banner.png"
+                        className="bg-black h-full w-full rounded-3xl object-cover"
+                        src={Hero}
                         alt="bg"
                     />
                 </div>

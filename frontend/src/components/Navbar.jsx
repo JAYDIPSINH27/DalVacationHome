@@ -1,117 +1,91 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import Button from "@mui/material/Button";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import CustomButton from "./CustomButton";
 import { logout } from "../CognitoHelper";
-import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthenticationContext } from "../AuthenticationContextProvider";
 
 const pages = [{text:"Add Rooms", link: "/app/add"}];
 export default function Navbar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+    const handleClose = () => {
+        setAnchorEl(null);
     };
+
 
     const handleLogout = () => {
         logout();
         window.location.href = "/login";
     };
+
+    const { loading, userRole } = useContext(AuthenticationContext);
+
     return (
         <AppBar position="static">
             <Toolbar>
-                <Typography
-                    variant="h6"
-                    component="div"
-                    sx={{
-                        display: { xs: "none", md: "flex" },
-                        color: "inherit",
-                        textDecoration: "none",
-                    }}
-                >
+                <Typography variant="h6" component={Link} to="/" sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}>
                     DalVacationHome
                 </Typography>
-                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+
+                <Button color="inherit" component={Link} to="/rooms">
+                    Rooms
+                </Button>
+
+                <Box sx={{ flexGrow: 1 }} />
+
+                {loading ? null : userRole ? (
                     <IconButton
                         size="large"
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
-                        onClick={handleOpenNavMenu}
+                        onClick={handleMenu}
                         color="inherit"
                     >
-                        <MenuIcon />
+                        <AccountCircle />
                     </IconButton>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorElNav}
-                        anchorOrigin={{
-                            vertical: "bottom",
-                            horizontal: "left",
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: "top",
-                            horizontal: "left",
-                        }}
-                        open={Boolean(anchorElNav)}
-                        onClose={handleCloseNavMenu}
-                        sx={{
-                            display: { xs: "block", md: "none" },
-                        }}
-                    >
-                        {pages.map((page) => (
-                            <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                <Typography textAlign="center">
-                                    {page.text}
-                                </Typography>
-                            </MenuItem>
-                        ))}
-                    </Menu>
-                </Box>
-                <Typography
-                    variant="h5"
-                    noWrap
-                    component="a"
-                    href="#app-bar-with-responsive-menu"
-                    sx={{
-                        display: { xs: "flex", md: "none" },
-                        flexGrow: 1,
-                        textDecoration: "none",
-                    }}
-                >
-                    DalVacationHome
-                </Typography>
-                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                    {pages.map((page) => (
-                        <Button
-                            variant="text"
-                            key={page}
-                            sx={{ my: 2, color: "white", display: "block" }}
-                        >
-                            <Link to={`${page.link}`}>{page.text}</Link>
+                ) : (
+                    <div>
+                        <Button color="error" component={Link} to="/login">
+                            Login
                         </Button>
-                    ))}
-                </Box>
-                <CustomButton
-                    color="secondary"
-                    variant="contained"
-                    onClick={handleLogout}
+                        <Button color="info" component={Link} to="/register">
+                            Register
+                        </Button>
+                    </div>
+                )}
+                <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
                 >
-                    Logout
-                </CustomButton>
+                    <MenuItem onClick={handleClose} component={Link} to="/profile">Profile</MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
             </Toolbar>
         </AppBar>
     );

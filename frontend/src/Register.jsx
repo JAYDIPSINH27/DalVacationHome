@@ -12,7 +12,7 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     getUserPool,
 } from "./CognitoHelper";
@@ -45,6 +45,7 @@ const schema = yup
     .required();
 
 const Register = () => {
+    const navigate= useNavigate();
     const { questionBank, isLoading } = useQuestionBank();
     const {
         handleSubmit,
@@ -91,7 +92,8 @@ const Register = () => {
                     window.location.href = "/login";
                 }, 1000);
             }
-        );
+    )
+    ;
     };
     if (isLoading) return <div className="h-screen flex justify-center items-center"><CircularProgress /></div>;
     return (
