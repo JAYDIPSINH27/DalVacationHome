@@ -1,18 +1,18 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import Button from "@mui/material/Button";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import CustomButton from "./CustomButton";
 import { logout } from "../CognitoHelper";
+import { useContext } from "react";
+import { AuthenticationContext } from "../AuthenticationContextProvider";
 
 export default function Navbar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -29,19 +29,61 @@ export default function Navbar() {
         logout();
         window.location.href = "/login";
     };
+
+    const { loading, userRole } = useContext(AuthenticationContext);
+
     return (
         <AppBar position="static">
             <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                <Typography variant="h6" component={Link} to="/" sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}>
                     DalVacationHome
                 </Typography>
-                <CustomButton
-                    color="secondary"
-                    variant="contained"
-                    onClick={handleLogout}
+
+                <Button color="inherit" component={Link} to="/rooms">
+                    Rooms
+                </Button>
+
+                <Box sx={{ flexGrow: 1 }} />
+
+                {loading ? null : userRole ? (
+                    <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        onClick={handleMenu}
+                        color="inherit"
+                    >
+                        <AccountCircle />
+                    </IconButton>
+                ) : (
+                    <div>
+                        <Button color="error" component={Link} to="/login">
+                            Login
+                        </Button>
+                        <Button color="info" component={Link} to="/register">
+                            Register
+                        </Button>
+                    </div>
+                )}
+                <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
                 >
-                    Logout
-                </CustomButton>
+                    <MenuItem onClick={handleClose} component={Link} to="/profile">Profile</MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
             </Toolbar>
         </AppBar>
     );
