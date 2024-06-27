@@ -17,6 +17,7 @@ import {
     getUserPool,
 } from "./CognitoHelper";
 import useQuestionBank from "./hooks/useQuestionBank";
+import { toast } from "react-toastify";
 
 const schema = yup
     .object({
@@ -64,7 +65,7 @@ const Register = () => {
                 },
                 {
                     Name: "custom:role",
-                    Value: "client",
+                    Value: data.role,
                 },
             ],
             [
@@ -85,7 +86,10 @@ const Register = () => {
                     console.log(err);
                     return;
                 }
-                console.log(result);
+                toast.success("User created successfully");
+                setTimeout(() => {
+                    window.location.href = "/login";
+                }, 1000);
             }
         );
     };
@@ -96,8 +100,8 @@ const Register = () => {
                 <div className="basis-1/2">
                     {/* Photo by <a href="https://unsplash.com/@ollipexxer?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Oliver Pecker</a> on <a href="https://unsplash.com/photos/jet-black-iphone-7-beside-analog-watch-HONJP8DyiSM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a> */}
                     <img
-                        className="bg-black h-full w-full rounded-3xl object-cover"
-                        src="/assets/banner.jpg"
+                        className="bg-black h-full w-full rounded-3xl object-contain"
+                        src="/assets/register_banner.png"
                         alt="bg"
                     />
                 </div>

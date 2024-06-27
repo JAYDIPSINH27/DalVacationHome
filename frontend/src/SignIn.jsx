@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import useQuestionBank from "./hooks/useQuestionBank";
 import { CircularProgress, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
@@ -8,6 +8,8 @@ import CustomInput from "./components/CustomInput";
 import CustomButton from "./components/CustomButton";
 import { getAwsCredentials, getCognitoUser } from "./CognitoHelper";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AuthenticationContext } from "./AuthenticationContextProvider";
 
 const login_schema = yup
     .object({
@@ -42,6 +44,7 @@ const SignIn = () => {
         handleSubmit,
         control,
         formState: { errors },
+        reset: resetUsernamePassword,
     } = useForm({
         resolver: yupResolver(login_schema),
     });
@@ -49,6 +52,7 @@ const SignIn = () => {
         handleSubmit: handleSubmitSecurity,
         control: controlSecurity,
         formState: { errors: errorsSecurity },
+        reset: resetSecurity,
     } = useForm({
         resolver: yupResolver(security_question_schema),
     });
@@ -56,6 +60,7 @@ const SignIn = () => {
         handleSubmit: handleSubmitCaesar,
         control: controlCaesar,
         formState: { errors: errorsCaesar },
+        reset: resetCaesar,
     } = useForm({
         resolver: yupResolver(caesar_schema),
     });
@@ -73,6 +78,8 @@ const SignIn = () => {
                 window.location.reload();
             },
             onFailure: (err) => {
+                setButtonLoading(false);
+                toast.error("Authentication failed: " + err);
                 console.error("Authentication failed:", err);
             },
             customChallenge: (challengeParameters) => {
@@ -94,10 +101,21 @@ const SignIn = () => {
         const cognitoUser = cognitoUserRef.current;
         cognitoUser.sendCustomChallengeAnswer(data.answer, {
             onSuccess: (result) => {
-                window.location.replace("/");
+                const search = new  URLSearchParams(window.location.search);
+                const redirect = search.get("redirect");
+                if(redirect){
+                    window.location.replace(decodeURIComponent(redirect));
+                }else{
+                    window.location.replace("/");
+                }
             },
             onFailure: (err) => {
-                console.error("Authentication failed:", err);
+                setButtonLoading(false);
+                toast.error("Invalid Answser - Try Again ");
+                resetUsernamePassword();
+                resetSecurity();
+                resetCaesar();
+                setFormState(0);
             },
             customChallenge: (challengeParameters) => {
                 console.log("Custom challenge:", challengeParameters);
@@ -126,8 +144,8 @@ const SignIn = () => {
                 <div className="basis-1/2">
                     {/* Photo by <a href="https://unsplash.com/@ollipexxer?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Oliver Pecker</a> on <a href="https://unsplash.com/photos/jet-black-iphone-7-beside-analog-watch-HONJP8DyiSM?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a> */}
                     <img
-                        className="bg-black h-full w-full rounded-3xl object-cover"
-                        src="/assets/banner.jpg"
+                        className="bg-black h-full w-full rounded-3xl object-contain"
+                        src="/assets/login_banner.png"
                         alt="bg"
                     />
                 </div>
