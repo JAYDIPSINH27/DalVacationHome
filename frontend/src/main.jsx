@@ -17,6 +17,7 @@ import AuthenticationContextProvider, { AuthenticationContext } from "./Authenti
 import Register from "./Register";
 import LandingPage from "./pages/LandingPage";
 import RoomDetail from "./components/RoomDetail";
+import PageNotFound from "./components/PageNotFound";
 const queryClient = new QueryClient();
 
 const PrivateRoute = ({ children, isAuthenticated }) => {
@@ -67,6 +68,7 @@ const AppRouter = ({ loggedInRole }) => {
                         </PrivateRoute>
                     }
                 />
+                <Route path="*" element={<PageNotFound/>} />
             </Routes>
         </BrowserRouter>
     );
