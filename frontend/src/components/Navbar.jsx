@@ -14,6 +14,7 @@ import { logout } from "../CognitoHelper";
 import { useContext } from "react";
 import { AuthenticationContext } from "../AuthenticationContextProvider";
 
+const pages = [{text:"Add Rooms", link: "/app/add"}];
 export default function Navbar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -24,6 +25,7 @@ export default function Navbar() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
 
     const handleLogout = () => {
         logout();

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import useQuestionBank from "./hooks/useQuestionBank";
 import { CircularProgress, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
@@ -42,6 +42,7 @@ const SignIn = () => {
         handleSubmit,
         control,
         formState: { errors },
+        reset: resetUsernamePassword,
     } = useForm({
         resolver: yupResolver(login_schema),
     });
@@ -49,6 +50,7 @@ const SignIn = () => {
         handleSubmit: handleSubmitSecurity,
         control: controlSecurity,
         formState: { errors: errorsSecurity },
+        reset: resetSecurity,
     } = useForm({
         resolver: yupResolver(security_question_schema),
     });
@@ -56,6 +58,7 @@ const SignIn = () => {
         handleSubmit: handleSubmitCaesar,
         control: controlCaesar,
         formState: { errors: errorsCaesar },
+        reset: resetCaesar,
     } = useForm({
         resolver: yupResolver(caesar_schema),
     });
@@ -73,6 +76,8 @@ const SignIn = () => {
                 window.location.reload();
             },
             onFailure: (err) => {
+                setButtonLoading(false);
+                toast.error("Authentication failed: " + err);
                 console.error("Authentication failed:", err);
             },
             customChallenge: (challengeParameters) => {
@@ -94,10 +99,21 @@ const SignIn = () => {
         const cognitoUser = cognitoUserRef.current;
         cognitoUser.sendCustomChallengeAnswer(data.answer, {
             onSuccess: (result) => {
-                window.location.replace("/");
+                const search = new  URLSearchParams(window.location.search);
+                const redirect = search.get("redirect");
+                if(redirect){
+                    window.location.replace(decodeURIComponent(redirect));
+                }else{
+                    window.location.replace("/");
+                }
             },
             onFailure: (err) => {
-                console.error("Authentication failed:", err);
+                setButtonLoading(false);
+                toast.error("Invalid Answser - Try Again ");
+                resetUsernamePassword();
+                resetSecurity();
+                resetCaesar();
+                setFormState(0);
             },
             customChallenge: (challengeParameters) => {
                 console.log("Custom challenge:", challengeParameters);
