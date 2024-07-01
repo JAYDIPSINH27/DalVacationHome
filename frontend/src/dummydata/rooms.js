@@ -8,7 +8,8 @@ export const dummyRooms = [
       price: 250,
       capacity: 3,
       imageUrl: Room,
-      availableDates: generateDates(30)  // Next 30 days
+      availableDates: generateDates(30),  // Next 30 days
+      amenities: ['Ocean View', 'Free Wi-Fi', 'Air Conditioning']
     },
     {
       id: '2',
@@ -17,7 +18,8 @@ export const dummyRooms = [
       price: 400,
       capacity: 6,
       imageUrl: Room,
-      availableDates: generateDates(30)  // Next 30 days
+      availableDates: generateDates(30),  // Next 30 days
+      amenities: ['Two Bedrooms', 'Living Area', 'Mountain View']
     },
     {
       id: '3',
@@ -26,7 +28,8 @@ export const dummyRooms = [
       price: 180,
       capacity: 2,
       imageUrl: Room,
-      availableDates: generateDates(30)  // Next 30 days
+      availableDates: generateDates(30),  // Next 30 days
+      amenities: ['Fireplace', 'Mountain View', 'Private Patio']
     },
     {
       id: '4',
@@ -35,7 +38,8 @@ export const dummyRooms = [
       price: 800,
       capacity: 4,
       imageUrl: Room,
-      availableDates: generateDates(30)  // Next 30 days
+      availableDates: generateDates(30),  // Next 30 days
+      amenities: ['Panoramic City View', 'Jacuzzi', 'Private Terrace']
     },
     {
       id: '5',
@@ -44,7 +48,8 @@ export const dummyRooms = [
       price: 300,
       capacity: 3,
       imageUrl: Room,
-      availableDates: generateDates(30)  // Next 30 days
+      availableDates: generateDates(30),  // Next 30 days
+      amenities: ['Beachfront', 'Private Patio', 'Outdoor Shower']
     }
   ];
   

@@ -43,9 +43,9 @@ function RoomCard({ room }) {
         <Button size="small" color="primary" href={`/room/${room.id}`}>
           View Details
         </Button>
-        <Button size="small" color="secondary" href={`/book/${room.id}`}>
+        {/* <Button size="small" color="secondary" href={`/book/${room.id}`}>
           Book Now
-        </Button>
+        </Button> */}
       </CardActions>
     </StyledCard>
   );

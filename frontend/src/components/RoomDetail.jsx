@@ -1,52 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Import useParams to access route parameters
-import { Container, Card, CardContent, CardMedia, Typography, Box, Button, CircularProgress } from '@mui/material';
-import { format, isSameDay } from 'date-fns'; // Import date-fns functions
-
-// Import dummy data and fetch function
+import { useParams } from 'react-router-dom';
+import { Container, Card, CardContent, CardMedia, Typography, Box, Button, CircularProgress, Chip, Modal, TextField } from '@mui/material';
+import { format, isSameDay } from 'date-fns';
 import { fetchAvailableRooms } from '../dummydata/rooms';
 import Navbar from './Navbar';
+import BookingModal from './BookingModal'; // Import the new BookingModal component
+import axios from 'axios'; // Import Axios for HTTP requests
 
 function RoomDetail() {
-    const { roomId } = useParams(); // Get room ID from route parameters
+    const { roomId } = useParams();
     const [loading, setLoading] = useState(true);
     const [room, setRoom] = useState(null);
-    const [startDate, setStartDate] = useState(null); // State to manage start date
-    const [endDate, setEndDate] = useState(null); // State to manage end date
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+    const [bookingDetails, setBookingDetails] = useState(null);
 
     useEffect(() => {
-        // Simulate loading delay
         fetchAvailableRooms().then((rooms) => {
-            const selectedRoom = rooms.find(room => room.id === roomId); // Find room by ID
+            const selectedRoom = rooms.find(room => room.id === roomId);
             setRoom(selectedRoom);
             setLoading(false);
         });
-    }, [roomId]); // Reload room details when roomId changes
+    }, [roomId]);
 
     const handleDateClick = (date) => {
         if (!startDate || (startDate && endDate)) {
-            // Select start date if no start date is selected or both dates are selected
             setStartDate(date);
-            setEndDate(null); // Clear end date if selecting a new start date
+            setEndDate(null);
         } else if (startDate && !endDate && date >= startDate) {
-            // Select end date if only start date is selected and date is after or equal to start date
             setEndDate(date);
         } else if (startDate && endDate && date < startDate) {
-            // Change start date if both start and end dates are selected and date is before start date
             setStartDate(date);
         }
     };
 
     const handleReset = () => {
-        // Clear both start and end dates
         setStartDate(null);
         setEndDate(null);
     };
 
     const handleBookNow = () => {
-        // Simulate booking action
         if (startDate && endDate) {
-            alert(`Booked for dates: ${format(startDate, 'MMM d')} - ${format(endDate, 'MMM d')}`);
+            setOpenModal(true);
         } else if (startDate) {
             alert(`Selected start date: ${format(startDate, 'MMM d')}. Please select an end date.`);
         } else {
@@ -54,7 +50,7 @@ function RoomDetail() {
         }
     };
 
-    const todayFormatted = new Date(); // Today's date
+    const todayFormatted = new Date();
 
     return (
         <>
@@ -70,7 +66,7 @@ function RoomDetail() {
                     <CardMedia
                         component="img"
                         height="400"
-                        image={room.imageUrl} // Use room image URL
+                        image={room.imageUrl}
                         alt={room.name}
                     />
                     <CardContent>
@@ -94,11 +90,18 @@ function RoomDetail() {
                         <Typography sx={{ mt: 2 }}>
                             Capacity: {room.capacity} people
                         </Typography>
-                        {/* Display available dates */}
+                        <Box sx={{ mt: 2 }}>
+                            <Typography sx={{ mt: 2, mb: 2 }}>
+                                Amenities:
+                            </Typography>
+                            {room.amenities.map((amenity, index) => (
+                                <Chip key={index} label={amenity} style={{ margin: '2px' }} />
+                            ))}
+                        </Box>
                         <div style={{ marginTop: '20px', textAlign: 'center' }}>
                             {room.availableDates.map((dateString, index) => {
                                 const date = new Date(dateString);
-                                const isDisabled = date.getTime() <= todayFormatted.getTime(); // Disable past dates
+                                const isDisabled = date.getTime() <= todayFormatted.getTime();
                                 const isSelected = startDate && isSameDay(date, startDate);
                                 const isInRange = startDate && endDate && date >= startDate && date <= endDate;
 
@@ -129,6 +132,15 @@ function RoomDetail() {
                     </CardContent>
                 </Card>
             )}
+            {/* Modal for collecting user details */}
+            <BookingModal
+                open={openModal}
+                onClose={() => setOpenModal(false)}
+                roomId={roomId}
+                startDate={startDate}
+                endDate={endDate}
+                setBookingDetails={setBookingDetails}
+            />
         </>
     );
 }
