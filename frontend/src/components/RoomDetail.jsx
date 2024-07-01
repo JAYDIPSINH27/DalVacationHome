@@ -1,20 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Card, CardContent, CardMedia, Typography, Box, Button, CircularProgress, Chip, Modal, TextField } from '@mui/material';
+import { Box, Button, Card, CardContent, CardMedia, Chip, CircularProgress, Container, Typography } from '@mui/material';
 import { format, isSameDay } from 'date-fns';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { AuthenticationContext } from "../AuthenticationContextProvider";
 import { fetchAvailableRooms } from '../dummydata/rooms';
-import Navbar from './Navbar';
 import BookingModal from './BookingModal'; // Import the new BookingModal component
-import axios from 'axios'; // Import Axios for HTTP requests
+import Navbar from './Navbar';
 
 function RoomDetail() {
     const { roomId } = useParams();
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [room, setRoom] = useState(null);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [bookingDetails, setBookingDetails] = useState(null);
+
+    // Example context or state for user authentication
+    const { loading: authLoading, userRole } = useContext(AuthenticationContext);
 
     useEffect(() => {
         fetchAvailableRooms().then((rooms) => {
@@ -41,12 +45,18 @@ function RoomDetail() {
     };
 
     const handleBookNow = () => {
-        if (startDate && endDate) {
-            setOpenModal(true);
-        } else if (startDate) {
-            alert(`Selected start date: ${format(startDate, 'MMM d')}. Please select an end date.`);
+        if (userRole) {
+            // User is authenticated, open booking modal
+            if (startDate && endDate) {
+                setOpenModal(true);
+            } else if (startDate) {
+                alert(`Selected start date: ${format(startDate, 'MMM d')}. Please select an end date.`);
+            } else {
+                alert(`Please select a start date.`);
+            }
         } else {
-            alert(`Please select a start date.`);
+            // User is not authenticated, redirect to login
+            navigate('/login')
         }
     };
 
@@ -55,7 +65,7 @@ function RoomDetail() {
     return (
         <>
             <Navbar />
-            {loading ? (
+            {loading || authLoading ? (
                 <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
                     <CircularProgress />
                 </Container>

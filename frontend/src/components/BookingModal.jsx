@@ -19,7 +19,7 @@ const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDet
                 userName,
                 email,
             };
-            axios.post('https://y18o50edd8.execute-api.us-east-1.amazonaws.com/test/booking', bookingData)
+            axios.post(import.meta.env.VITE_BOOKING_API_URL, bookingData)
                 .then(response => {
                     setBookingDetails(response.data);
                     onClose(); // Close modal on successful booking
