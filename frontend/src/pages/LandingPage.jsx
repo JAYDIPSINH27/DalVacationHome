@@ -4,6 +4,8 @@ import { fetchAvailableRooms } from '../dummydata/rooms';
 import Navbar from '../components/Navbar';
 import FilterBar from '../components/FilterBar';
 import RoomCard from '../components/RoomCard';
+// import ChatbotDialog from '../components/ChatBot';
+import ProvidedChatBot from '../components/ProvidedChatBot';
 
 function LandingPage() {
   const [rooms, setRooms] = useState([]);
@@ -93,6 +95,9 @@ function LandingPage() {
           ))}
         </Grid>
       </Container>
+      {/* <ChatbotDialog/> */}
+      <ProvidedChatBot/>
+      
     </>
   );
 }
