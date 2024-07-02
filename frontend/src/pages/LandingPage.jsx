@@ -6,6 +6,8 @@ import FilterBar from '../components/FilterBar';
 import RoomCard from '../components/RoomCard';
 // import ChatbotDialog from '../components/ChatBot';
 import ProvidedChatBot from '../components/ProvidedChatBot';
+import Chatbot from '../components/Chatbot';
+import withNavbar from './../utils/withNavbar';
 
 function LandingPage() {
   const [rooms, setRooms] = useState([]);
@@ -71,7 +73,7 @@ function LandingPage() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Typography variant="h4" gutterBottom component="h1" align="center">
           Welcome to DALVacationHome
@@ -96,10 +98,11 @@ function LandingPage() {
         </Grid>
       </Container>
       {/* <ChatbotDialog/> */}
-      <ProvidedChatBot/>
+      {/* <ProvidedChatBot/> */}
+      <Chatbot/>
       
     </>
   );
 }
 
-export default LandingPage;
+export default withNavbar(LandingPage);
