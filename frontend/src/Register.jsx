@@ -87,17 +87,17 @@ const Register = () => {
                     console.log(err);
                     return;
                 }
-                if(result){
-                    console.log(result)
-                    axios.post("https://y18o50edd8.execute-api.us-east-1.amazonaws.com/test/registration-notification",{
-                        email: data.email,
-                        userId:result.userSub
-                    })
-                }
+                // if(result){
+                //     console.log(result)
+                //     axios.post("https://y18o50edd8.execute-api.us-east-1.amazonaws.com/test/registration-notification",{
+                //         email: data.email,
+                //         userId:result.userSub
+                //     })
+                // }
                 toast.success("User created successfully");
-                // setTimeout(() => {
-                //     window.location.href = "/login";
-                // }, 1000);
+                setTimeout(() => {
+                    window.location.href = "/login";
+                }, 1000);
             }
     )
     ;
