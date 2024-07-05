@@ -20,6 +20,8 @@ import Register from "./Register";
 import LandingPage from "./pages/LandingPage";
 import RoomDetail from "./components/RoomDetail";
 import PageNotFound from "./components/PageNotFound";
+import ChatClient from "./components/ChatClient";
+import ChatAgent from "./components/ChatAgent";
 const queryClient = new QueryClient();
 
 const PrivateRoute = ({ children, isAuthenticated }) => {
@@ -71,6 +73,8 @@ const AppRouter = ({ loggedInRole }) => {
                     }
                 />
                 <Route path="/dashboard" element={<AgentDashboard/>} />
+                <Route path="/clientQuery" element={<ChatClient/>} />
+                <Route path="/agentQuery" element={<ChatAgent/>} />
                 <Route path="*" element={<PageNotFound/>} />
             </Routes>
         </BrowserRouter>

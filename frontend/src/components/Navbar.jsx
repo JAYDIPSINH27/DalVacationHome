@@ -14,7 +14,7 @@ import { logout } from "../CognitoHelper";
 import { useContext } from "react";
 import { AuthenticationContext } from "../AuthenticationContextProvider";
 
-const pages = [{text:"Add Rooms", link: "/app/add"}];
+const pages = [{ text: "Add Rooms", link: "/app/add" }];
 export default function Navbar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -41,9 +41,22 @@ export default function Navbar() {
                     DalVacationHome
                 </Typography>
 
-                <Button color="inherit" component={Link} to="/rooms">
-                    Rooms
+                {loading ? null : userRole === "agent" ? <Button color="inherit" component={Link} to="/agentQuery">
+                    Customer  Queries
                 </Button>
+
+                    :
+                    <>
+                    <Button color="inherit" component={Link} to="/rooms">
+                        Rooms
+                    </Button>
+                    <Button color="inherit" component={Link} to="/clientQuery">
+                        Query
+                    </Button>
+
+                    </>
+
+                }
 
                 <Box sx={{ flexGrow: 1 }} />
 
