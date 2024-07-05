@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
-
+import { AuthenticationContext } from "../AuthenticationContextProvider";
 
 const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDetails }) => {
-    
+    const { loading, userRole,userAttributesMap } = useContext(AuthenticationContext);
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [bookingError, setBookingError] = useState(null);
 
+    console.log(userAttributesMap)
     const handleConfirmBooking = () => {
         if (userName && email) {
             const bookingData = {
@@ -18,6 +19,7 @@ const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDet
                 startDate: format(startDate, 'yyyy-MM-dd'),
                 endDate: format(endDate, 'yyyy-MM-dd'),
                 userName,
+                userId:userAttributesMap.current.sub,
                 email,
             };
             axios.post(import.meta.env.VITE_BOOKING_API_URL, bookingData)

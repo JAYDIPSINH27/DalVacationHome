@@ -3,8 +3,14 @@ const sns = new AWS.SNS({ region: "us-east-1" }); // Update with your SNS region
 
 exports.handler = async (event) => {
   try {
-    const email = event.email; // Assuming the event contains the email address directly
-    const userId = event.userId; // Assuming the event contains the userId directly
+
+    // const requestJSON = JSON.parse(event.body);
+
+    // const email = requestJSON.email; // Assuming the event contains the email address directly
+    // const userId = requestJSON.userId; // Assuming the event contains the userId directly
+    const email = event.request.userAttributes.email
+    const userId = event.request.userAttributes.sub
+
 
     if (!email || !userId) {
       throw new Error("Email and UserId are required");
@@ -109,9 +115,9 @@ exports.handler = async (event) => {
     // await sns.deleteTopic(deleteTopicParams).promise();
     // console.log(`Deleted SNS topic ${topicArn}`);
 
-    return { statusCode: 200, body: `Notification sent to ${email}`,headers:{'Access-Control-Allow-Origin' : '*'} };
+    return event;
   } catch (err) {
     console.error("Error processing notification:", err);
-    return { statusCode: 500, body: "Error processing notification", headers:{'Access-Control-Allow-Origin' : '*'} };
+    return event;
   }
 };
