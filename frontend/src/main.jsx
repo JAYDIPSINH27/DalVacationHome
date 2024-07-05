@@ -22,6 +22,8 @@ import RoomDetail from "./components/RoomDetail";
 import PageNotFound from "./components/PageNotFound";
 import ChatClient from "./components/ChatClient";
 import ChatAgent from "./components/ChatAgent";
+import RoomListing from "./pages/RoomListing";
+import RoomDetails from "./pages/RoomDetails";
 const queryClient = new QueryClient();
 
 const PrivateRoute = ({ children, isAuthenticated }) => {
@@ -35,14 +37,15 @@ const AppRouter = ({ loggedInRole }) => {
         <BrowserRouter>
             <Routes>
                 {/* Public Routes */}
+                <Route path="/" element={<LandingPage />} />
                 <Route
-                    path="/"
+                    path="/home"
                     element={
-                        !loggedInRole ? <Navigate to="/home" /> : <Navigate to="/app" />
+                        !loggedInRole ? <Navigate to="/roomListing" /> : <Navigate to="/app" />
                     }
                 />
-                <Route path="/home" element={<LandingPage/>} />
-                <Route path="/room/:roomId" element={<RoomDetail />} />
+                <Route path="/roomListing" element={< RoomListing/>} />
+                <Route path="/room/:roomId" element={<RoomDetails />} />
                 <Route path="/login" element={<SignIn />} />,
                 <Route path="/register" element={<Register />} />,
                 <Route
@@ -50,8 +53,8 @@ const AppRouter = ({ loggedInRole }) => {
                     element={
                         <PrivateRoute isAuthenticated={loggedInRole}>
                             {loggedInRole === "client" ? (
-                                <Navigate to="/home" />
-                            ) : <Navigate to="/dashboard" />
+                                <Navigate to="/app/client" />
+                            ) : <Navigate to="/app/agent" />
                             }
                         </PrivateRoute>
                     }
@@ -60,7 +63,7 @@ const AppRouter = ({ loggedInRole }) => {
                     path="/app/client"
                     element={
                         <PrivateRoute isAuthenticated={loggedInRole}>
-                            <ClientDashboard />
+                            <RoomListing />
                         </PrivateRoute>
                     }
                 />
