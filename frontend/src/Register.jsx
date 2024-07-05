@@ -12,7 +12,7 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
     getUserPool,
 } from "./CognitoHelper";
@@ -45,7 +45,7 @@ const schema = yup
     .required();
 
 const Register = () => {
-    const navigate= useNavigate();
+    const [buttonLoading, setButtonLoading] = React.useState(false);
     const { questionBank, isLoading } = useQuestionBank();
     const {
         handleSubmit,
@@ -55,6 +55,7 @@ const Register = () => {
         resolver: yupResolver(schema),
     });
     const onSubmit = (data) => {
+        setButtonLoading(true);
         const userpool = getUserPool();
         userpool.signUp(
             data.username,
@@ -83,17 +84,12 @@ const Register = () => {
                 },
             ],
             (err, result) => {
+                setButtonLoading(false);
                 if (err) {
+                    toast.error("Signup failed: " + err);
                     console.log(err);
                     return;
                 }
-                // if(result){
-                //     console.log(result)
-                //     axios.post("https://y18o50edd8.execute-api.us-east-1.amazonaws.com/test/registration-notification",{
-                //         email: data.email,
-                //         userId:result.userSub
-                //     })
-                // }
                 toast.success("User created successfully");
                 setTimeout(() => {
                     window.location.href = "/login";
@@ -290,7 +286,7 @@ const Register = () => {
                                 size="large"
                                 type="submit"
                             >
-                                Sign Up
+                                 {buttonLoading ? <CircularProgress color="secondary" size="20px" /> : "Sign Up"}
                             </CustomButton>
                         </div>
                     </form>
