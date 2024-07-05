@@ -1,9 +1,9 @@
-// Import required modules
 import AWS from 'aws-sdk'; // AWS SDK for JavaScript
 import { v4 as uuidv4 } from 'uuid'; // UUID for generating unique IDs
 
 // Initialize AWS SDK
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const sqs = new AWS.SQS({ region: 'us-east-1' }); // Replace 'your-region' with your AWS region
 
 // Lambda handler function
 export const handler = async (event) => {
@@ -30,7 +30,7 @@ export const handler = async (event) => {
 
             // Prepare the item to be put into DynamoDB
             const params = {
-                TableName: 'BookingsTable', // Replace with your DynamoDB table name
+                TableName: 'BookingsTable',
                 Item: {
                     bookingId: bookingId,
                     roomId: data.roomId,
@@ -44,6 +44,17 @@ export const handler = async (event) => {
 
             // Put item into DynamoDB
             await dynamoDb.put(params).promise();
+
+            // Add booking details to SQS queue for email notification
+            const sqsParams = {
+                QueueUrl: 'https://sqs.us-east-1.amazonaws.com/704662461464/DalVacationBooking', // Replace with your SQS queue URL
+                MessageBody: JSON.stringify({
+                    bookingId: bookingId,
+                    email: data.email,
+                }),
+            };
+
+            await sqs.sendMessage(sqsParams).promise();
 
             // Set success response
             responseBody = { message: 'Booking created successfully.', bookingId };
