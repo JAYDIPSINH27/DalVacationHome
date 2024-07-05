@@ -3,8 +3,11 @@ const sns = new AWS.SNS({ region: "us-east-1" }); // Update with your SNS region
 
 exports.handler = async (event) => {
   try {
-    const email = event.email; // Assuming the event contains the email address directly
-    const userId = event.userId; // Assuming the event contains the userId directly
+    // const email = event.email; // Assuming the event contains the email address directly
+    // const userId = event.userId; // Assuming the event contains the userId directly
+
+    const email = event.request.userAttributes.email
+    const userId = event.request.userAttributes.sub
 
     if (!email || !userId) {
       throw new Error("Email and UserId are required");
@@ -102,9 +105,9 @@ exports.handler = async (event) => {
     const publishResponse = await sns.publish(publishParams).promise();
     console.log(`Published message to topic ${topicArn}:`, publishResponse);
 
-    return { statusCode: 200, body: `Notification sent to ${email}` };
+    return event
   } catch (err) {
     console.error("Error processing notification:", err);
-    return { statusCode: 500, body: `Error processing notification: ${err.message}` };
+    return event
   }
 };

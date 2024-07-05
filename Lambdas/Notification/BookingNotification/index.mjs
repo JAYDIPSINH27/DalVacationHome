@@ -50,8 +50,8 @@ export const handler = async (event) => {
                 throw new Error(`Booking not found for bookingId: ${bookingId}`);
             }
 
-            const { userName, email } = data.Item;
-            const topicName = `AuthTopic-${userName}`;
+            const { userId, email,userName } = data.Item;
+            const topicName = `AuthTopic-${userId}`;
 
             let topicArn = await getTopicArnByName(topicName);
             console.log(topicName)
