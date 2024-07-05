@@ -109,9 +109,9 @@ exports.handler = async (event) => {
     // await sns.deleteTopic(deleteTopicParams).promise();
     // console.log(`Deleted SNS topic ${topicArn}`);
 
-    return { statusCode: 200, body: `Notification sent to ${email}` };
+    return { statusCode: 200, body: `Notification sent to ${email}`,headers:{'Access-Control-Allow-Origin' : '*'} };
   } catch (err) {
     console.error("Error processing notification:", err);
-    return { statusCode: 500, body: "Error processing notification" };
+    return { statusCode: 500, body: "Error processing notification", headers:{'Access-Control-Allow-Origin' : '*'} };
   }
 };

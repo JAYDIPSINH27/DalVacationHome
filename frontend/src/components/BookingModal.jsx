@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 
 
 const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDetails }) => {
+    
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [bookingError, setBookingError] = useState(null);
