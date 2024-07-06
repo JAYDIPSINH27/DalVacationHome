@@ -22,13 +22,20 @@ function RoomListing() {
       return;
     }
 
-    console.log("Searching for available rooms between", startDate, "and", endDate);
+    console.log(
+      "Searching for available rooms between",
+      startDate,
+      "and",
+      endDate
+    );
 
     axios
       .get(`https://u73vi9w6la.execute-api.us-east-1.amazonaws.com/dev/rooms`)
       .then((response) => {
         const roomsData = JSON.parse(response.data.body);
         setRoomsData(roomsData);
+
+        
 
         // Filter rooms based on availability
         const available = roomsData.filter((room) => {
@@ -41,7 +48,9 @@ function RoomListing() {
             const searchEndDate = new Date(endDate);
 
             // Check for overlap
-            if (!(searchEndDate < roomStartDate || searchStartDate > roomEndDate)) {
+            if (
+              !(searchEndDate < roomStartDate || searchStartDate > roomEndDate)
+            ) {
               isAvailable = false; // Dates overlap, room is not available
               break; // No need to check further dates
             }
@@ -59,10 +68,14 @@ function RoomListing() {
       });
   };
 
+  // const redirectRoomDetails = (room) => {
+  //   navigate("/roomDetails", { state: { room } })
+  // };
   const redirectRoomDetails = (room) => {
     navigate(`/room/${room.room_number}`,{state:{room:room}});
 
   };
+
 
   return (
     <>
@@ -97,15 +110,40 @@ function RoomListing() {
 
         {/* Display available rooms in grid */}
         <div className="mt-4 grid grid-cols-4 gap-4 p-10">
-          {availableRooms.map((room, index) => (
-            <div key={index} className="border border-gray-500 rounded p-4 hover:shadow-2xl hover:shadow-black">
-              <h3 className="text-xl font-semibold border-b-2 border-black pb-2 mb-2">Room Name: {room.name}</h3>
+          {availableRooms.map((room, index) => {
+                        // Ensure amenities is an array
+                        const amenitiesArray = Array.isArray(room.amenities)
+                        ? room.amenities
+                        : Object.values(room.amenities);
+            return (
+            <div
+              key={index}
+              className="border border-gray-500 rounded p-4 hover:shadow-2xl hover:shadow-black"
+            >
+              <h3 className="text-xl font-semibold border-b-2 border-black pb-2 mb-2">
+                Room Name: {room.name}
+              </h3>
               <p>Room Number : {room.room_number}</p>
               <p>{room.description}</p>
               <p>Capacity : {room.capacity}</p>
               <p>Price: ${room.price}</p>
-              <img src={room.image} alt={`Room ${room.room_number}`} className="w-full h-48 object-cover rounded mt-4" />
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 flex justify-center items-center w-full" onClick={()=>redirectRoomDetails(room)}>More Details</button>
+              <img
+                src={room.image}
+                alt={`Room ${room.room_number}`}
+                className="w-full h-48 object-cover rounded mt-4"
+              />
+                {/* <p>Amenities:</p>
+                <ul>
+                  {amenitiesArray.map((amenity, index) => (
+                    <li key={index}>{amenity}</li>
+                  ))}
+                </ul> */}
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 flex justify-center items-center w-full"
+                onClick={() => redirectRoomDetails(room)} // Pass the room object correctly
+              >
+                More Details
+              </button>
               {/* <p>Dates:</p>
               <ul>
                 {room.dates.map((date, idx) => (
@@ -116,10 +154,11 @@ function RoomListing() {
                 ))}
               </ul> */}
             </div>
-          ))}
+          );
+})}
         </div>
       </div>
-      <Chatbot/>
+      <Chatbot />
     </>
   );
 }
