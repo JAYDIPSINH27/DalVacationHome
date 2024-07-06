@@ -8,7 +8,7 @@ import { AuthenticationContext } from "../AuthenticationContextProvider";
 const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDetails }) => {
     const { loading, userRole,userAttributesMap } = useContext(AuthenticationContext);
     const [userName, setUserName] = useState('');
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState(userAttributesMap.current.email);
     const [bookingError, setBookingError] = useState(null);
 
     console.log(userAttributesMap)

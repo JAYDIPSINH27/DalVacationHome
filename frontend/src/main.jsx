@@ -45,7 +45,7 @@ const AppRouter = ({ loggedInRole }) => {
                     }
                 />
                 <Route path="/roomListing" element={< RoomListing/>} />
-                <Route path="/room/:roomId" element={<RoomDetails />} />
+                <Route path="/room/:roomId" element={<RoomDetail />} />
                 <Route path="/login" element={<SignIn />} />,
                 <Route path="/register" element={<Register />} />,
                 <Route

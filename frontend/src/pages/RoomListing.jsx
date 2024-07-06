@@ -59,8 +59,8 @@ function RoomListing() {
       });
   };
 
-  const redirectRoomDetails = (roomId) => {
-    navigate(`/room/${roomId}`);
+  const redirectRoomDetails = (room) => {
+    navigate(`/room/${room.room_number}`,{state:{room:room}});
 
   };
 
@@ -105,7 +105,7 @@ function RoomListing() {
               <p>Capacity : {room.capacity}</p>
               <p>Price: ${room.price}</p>
               <img src={room.image} alt={`Room ${room.room_number}`} className="w-full h-48 object-cover rounded mt-4" />
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 flex justify-center items-center w-full" onClick={redirectRoomDetails}>More Details</button>
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 flex justify-center items-center w-full" onClick={()=>redirectRoomDetails(room)}>More Details</button>
               {/* <p>Dates:</p>
               <ul>
                 {room.dates.map((date, idx) => (
