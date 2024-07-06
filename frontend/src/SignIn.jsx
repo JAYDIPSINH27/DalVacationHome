@@ -8,8 +8,10 @@ import * as yup from "yup";
 import CustomInput from "./components/CustomInput";
 import CustomButton from "./components/CustomButton";
 import { getAwsCredentials, getCognitoUser } from "./CognitoHelper";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import Hero from './assets/hero.svg'
+import axios from "axios";
+
 const login_schema = yup
     .object({
         username: yup.string().required("Username is required"),
@@ -38,6 +40,7 @@ const SignIn = () => {
     const [question, setQuestion] = React.useState(null);
     const [buttonLoading, setButtonLoading] = React.useState(false);
     const cognitoUserRef = React.useRef(null);
+    const navigate=useNavigate();
     const q_text = questionBank?.find((q) => q.q_id === question)?.q || "";
     const {
         handleSubmit,
@@ -100,13 +103,25 @@ const SignIn = () => {
         const cognitoUser = cognitoUserRef.current;
         cognitoUser.sendCustomChallengeAnswer(data.answer, {
             onSuccess: (result) => {
-                const search = new  URLSearchParams(window.location.search);
-                const redirect = search.get("redirect");
-                if(redirect){
-                    window.location.replace(decodeURIComponent(redirect));
-                }else{
-                    window.location.replace("/");
-                }
+
+                // console.log(result)
+                axios.post(import.meta.env.VITE_APP_AWS_REGISTER_NOTIFICATION_URL,{
+                    userId: result.idToken.payload.sub,
+                    email: result.idToken.payload.email,
+                },{
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }})
+                
+                    navigate("/");
+                // const search = new  URLSearchParams(window.location.search);
+                // const redirect = search.get("redirect");
+                // if(redirect){
+                //     window.location.replace(decodeURIComponent(redirect));
+                // }else{
+                //     window.location.replace("/");
+                // }
+
             },
             onFailure: (err) => {
                 setButtonLoading(false);
