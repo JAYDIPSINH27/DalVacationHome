@@ -20,6 +20,7 @@ const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDet
                 endDate: format(endDate, 'yyyy-MM-dd'),
                 userName,
                 userId:userAttributesMap.current.sub,
+                arn:userAttributesMap.current["custom:sns_topic_arn"],
                 email,
             };
             axios.post(import.meta.env.VITE_BOOKING_API_URL, bookingData)
