@@ -32,6 +32,7 @@ const AuthenticationContextProvider = (props) => {
                             const role = userAttributesMap.current["custom:role"];
                             setUserRole(role);
                             setLoading(false);
+                            
                         }
                     });
                 } else {

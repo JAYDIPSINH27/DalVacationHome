@@ -1,16 +1,26 @@
 const AWS = require("aws-sdk");
-const sns = new AWS.SNS({ region: "us-east-1" }); // Update with your SNS region
+const sns = new AWS.SNS({ region: "us-east-1" });
 
 exports.handler = async (event) => {
+  const headers = {
+    "Access-Control-Allow-Origin": "*", // Change "*" to your specific origin if needed
+    "Access-Control-Allow-Methods": "OPTIONS,POST",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+
   try {
+    // Check for preflight request (OPTIONS)
+    if (event.httpMethod === "OPTIONS") {
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ message: "CORS preflight check successful" }),
+      };
+    }
 
-    // const requestJSON = JSON.parse(event.body);
-
-    // const email = requestJSON.email; // Assuming the event contains the email address directly
-    // const userId = requestJSON.userId; // Assuming the event contains the userId directly
-    const email = event.request.userAttributes.email
-    const userId = event.request.userAttributes.sub
-
+    const requestJSON = JSON.parse(event.body);
+    const email = requestJSON.email;
+    const userId = requestJSON.userId;
 
     if (!email || !userId) {
       throw new Error("Email and UserId are required");
@@ -68,9 +78,7 @@ exports.handler = async (event) => {
       const createTopicParams = {
         Name: topicName,
       };
-      const createTopicResponse = await sns
-        .createTopic(createTopicParams)
-        .promise();
+      const createTopicResponse = await sns.createTopic(createTopicParams).promise();
       topicArn = createTopicResponse.TopicArn;
       console.log(`Created SNS topic ${topicArn}`);
     } else {
@@ -88,10 +96,7 @@ exports.handler = async (event) => {
         Endpoint: email,
       };
       const subscribeResponse = await sns.subscribe(subscribeParams).promise();
-      console.log(
-        `Subscribed email ${email} to topic ${topicArn}:`,
-        subscribeResponse
-      );
+      console.log(`Subscribed email ${email} to topic ${topicArn}:`, subscribeResponse);
 
       // Wait for subscription to be confirmed
       await new Promise((resolve) => setTimeout(resolve, 60000));
@@ -108,16 +113,17 @@ exports.handler = async (event) => {
     const publishResponse = await sns.publish(publishParams).promise();
     console.log(`Published message to topic ${topicArn}:`, publishResponse);
 
-    // Uncomment to delete the SNS topic after use
-    // const deleteTopicParams = {
-    //     TopicArn: topicArn
-    // };
-    // await sns.deleteTopic(deleteTopicParams).promise();
-    // console.log(`Deleted SNS topic ${topicArn}`);
-
-    return event;
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ message: "Notification sent successfully" }),
+    };
   } catch (err) {
     console.error("Error processing notification:", err);
-    return event;
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: "Error processing notification" }),
+    };
   }
 };

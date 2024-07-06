@@ -39,6 +39,7 @@ export const handler = async (event) => {
                     userName: data.userName,
                     email: data.email,
                     userId:data.userId,
+                    arn:data.arn,
                     createdAt: new Date().toISOString(),
                 },
             };
