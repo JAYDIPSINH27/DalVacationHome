@@ -10,6 +10,7 @@ exports.handler = async (event) => {
     // const userId = requestJSON.userId; // Assuming the event contains the userId directly
     const email = event.request.userAttributes.email
     const userId = event.request.userAttributes.sub
+   
 
 
     if (!email || !userId) {

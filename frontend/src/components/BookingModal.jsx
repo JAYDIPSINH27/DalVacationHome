@@ -18,7 +18,8 @@ const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDet
                 startDate: format(startDate, 'yyyy-MM-dd'),
                 endDate: format(endDate, 'yyyy-MM-dd'),
                 userName,
-                userId: userAttributesMap.current.sub,
+                userId:userAttributesMap.current.sub,
+                arn:userAttributesMap.current["custom:sns_topic_arn"],
                 email,
             };
 
