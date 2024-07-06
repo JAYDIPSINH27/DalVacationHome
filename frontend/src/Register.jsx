@@ -90,6 +90,16 @@ const Register = () => {
                     console.log(err);
                     return;
                 }
+                if(result){
+                    console.log(result)
+                    axios.post(import.meta.env.VITE_APP_AWS_REGISTER_NOTIFICATION_URL,{
+                        email:data.email,
+                        userId:result.userSub
+                    },{
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }})
+                }
                 toast.success("User created successfully");
                 setTimeout(() => {
                     window.location.href = "/login";

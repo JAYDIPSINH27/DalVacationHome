@@ -10,25 +10,25 @@ export const handler = async (event) => {
     try {
         console.log('Event:', JSON.stringify(event));
 
-        // const getTopicArnByName = async (topicName) => {
-        //     let nextToken = null;
-        //     do {
-        //       const listTopicsParams = {
-        //         NextToken: nextToken,
-        //       };
-        //       const topicsResponse = await sns.listTopics(listTopicsParams).promise();
-        //       for (const topic of topicsResponse.Topics) {
-        //         const topicArn = topic.TopicArn;
-        //         const arnParts = topicArn.split(":");
-        //         const existingTopicName = arnParts[arnParts.length - 1];
-        //         if (existingTopicName === topicName) {
-        //           return topicArn;
-        //         }
-        //       }
-        //       nextToken = topicsResponse.NextToken;
-        //     } while (nextToken);
-        //     return null;
-        //   };
+        const getTopicArnByName = async (topicName) => {
+            let nextToken = null;
+            do {
+              const listTopicsParams = {
+                NextToken: nextToken,
+              };
+              const topicsResponse = await sns.listTopics(listTopicsParams).promise();
+              for (const topic of topicsResponse.Topics) {
+                const topicArn = topic.TopicArn;
+                const arnParts = topicArn.split(":");
+                const existingTopicName = arnParts[arnParts.length - 1];
+                if (existingTopicName === topicName) {
+                  return topicArn;
+                }
+              }
+              nextToken = topicsResponse.NextToken;
+            } while (nextToken);
+            return null;
+          };
 
         for (const record of event.Records) {
             const messageBody = JSON.parse(record.body);
@@ -50,16 +50,16 @@ export const handler = async (event) => {
                 throw new Error(`Booking not found for bookingId: ${bookingId}`);
             }
 
-            const { userId, email,userName,arn } = data.Item;
-            // const topicName = `AuthTopic-${userId}`;//
+            const { userId, email,userName } = data.Item;
+            const topicName = `AuthTopic-${userId}`;
 
-            // let topicArn = await getTopicArnByName(topicName);
-            // console.log(topicName)
-            // console.log(topicArn)
+            let topicArn = await getTopicArnByName(topicName);
+            console.log(topicName)
+            console.log(topicArn)
 
             // Prepare the email message
             const emailParams = {
-                TopicArn: arn, // Replace with your SNS topic ARN
+                TopicArn: topicArn, // Replace with your SNS topic ARN
                 Message: `Hello ${userName}! Your booking (ID: ${bookingId}) has been successfully created.`,
                 Subject: 'Booking Confirmation'
             };
