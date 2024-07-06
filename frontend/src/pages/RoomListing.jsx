@@ -68,8 +68,12 @@ function RoomListing() {
       });
   };
 
+  // const redirectRoomDetails = (room) => {
+  //   navigate("/roomDetails", { state: { room } })
+  // };
   const redirectRoomDetails = (room) => {
-    navigate("/roomDetails", { state: { room } });
+    navigate(`/room/${room.room_number}`,{state:{room:room}});
+
   };
 
 

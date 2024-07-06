@@ -1,17 +1,16 @@
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Modal, Box, Typography, TextField, Button } from '@mui/material';
 import axios from 'axios';
-import { format } from 'date-fns';
+import { format, eachDayOfInterval } from 'date-fns';
 import { toast } from 'react-toastify';
 import { AuthenticationContext } from "../AuthenticationContextProvider";
 
-const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDetails }) => {
-    const { loading, userRole,userAttributesMap } = useContext(AuthenticationContext);
+const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDetails, disabledDates }) => {
+    const { loading, userRole, userAttributesMap } = useContext(AuthenticationContext);
     const [userName, setUserName] = useState('');
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState(userAttributesMap.current.email);
     const [bookingError, setBookingError] = useState(null);
 
-    console.log(userAttributesMap)
     const handleConfirmBooking = () => {
         if (userName && email) {
             const bookingData = {
@@ -19,9 +18,10 @@ const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDet
                 startDate: format(startDate, 'yyyy-MM-dd'),
                 endDate: format(endDate, 'yyyy-MM-dd'),
                 userName,
-                userId:userAttributesMap.current.sub,
+                userId: userAttributesMap.current.sub,
                 email,
             };
+
             axios.post(import.meta.env.VITE_BOOKING_API_URL, bookingData)
                 .then(response => {
                     setBookingDetails(response.data);
@@ -43,6 +43,21 @@ const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDet
         } else {
             alert('Please fill in all fields.');
         }
+    };
+
+    // Ensure disabledDates is initialized and is an array
+    const isDateDisabled = (date) => {
+        return Array.isArray(disabledDates) && disabledDates.some(disabledDate => format(disabledDate, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'));
+    };
+
+    // Check if any date in the range [start, end] is disabled
+    const hasDisabledDatesInRange = (start, end) => {
+        if (!Array.isArray(disabledDates)) {
+            return false; // If disabledDates is not an array, return false
+        }
+
+        const allDatesInRange = eachDayOfInterval({ start, end });
+        return allDatesInRange.some(date => isDateDisabled(date));
     };
 
     return (
@@ -91,7 +106,6 @@ const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDet
                         {bookingError}
                     </Typography>
                 )}
-                
             </Box>
         </Modal>
     );
