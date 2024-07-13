@@ -11,3 +11,6 @@ steps:
 images:
   - 'us-central1-docker.pkg.dev/csci-5410-serverless-project/frontend/frontend:$SHORT_SHA'
   - 'us-central1-docker.pkg.dev/csci-5410-serverless-project/frontend/frontend:latest'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
