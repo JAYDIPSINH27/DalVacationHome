@@ -2,12 +2,12 @@ image: docker:latest
 
 variables:
   DOCKER_DRIVER: overlay2
-  
+
 services:
   - docker:dind
 
 before_script:
-  - echo "$GCP_SERVICE_ACCOUNT_KEY" | base64 --decode -i > /gcp-key.json
+  - echo "$GCP_SERVICE_ACCOUNT_KEY" | base64 -d -i > /gcp-key.json
   - gcloud auth activate-service-account --key-file /gcp-key.json
   - gcloud --quiet config set project $GCP_PROJECT_ID
   - gcloud auth configure-docker $REGION-docker.pkg.dev
