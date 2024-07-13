@@ -1,4 +1,4 @@
-image: docker:latest
+image: google/cloud-sdk:alpine
 
 variables:
   DOCKER_DRIVER: overlay2
