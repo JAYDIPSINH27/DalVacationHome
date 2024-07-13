@@ -1,5 +1,4 @@
 import { CognitoUserPool, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
-import AWS from 'aws-sdk';
 
 const poolData = {
     UserPoolId: 'us-east-1_L7Hw0SRwb', // e.g., 'us-east-1_ABC123'
@@ -30,10 +29,6 @@ export const getAwsCredentials = (username, password) => {
       };
 
       return new AuthenticationDetails(authenticationData);
-}
-
-export  const getCognitoidentityserviceprovider = () => {
-  return new AWS.CognitoIdentityServiceProvider();
 }
 
 export const logout = () => {
