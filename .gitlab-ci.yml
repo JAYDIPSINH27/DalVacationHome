@@ -1,4 +1,4 @@
-image: google/cloud-sdk:alpine
+image: docker:latest
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -7,6 +7,10 @@ services:
   - docker:dind
 
 before_script:
+  - curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz
+  - tar -xvf google-cloud-cli-linux-x86_64.tar.gz
+  - ./google-cloud-sdk/install.sh
+  - ./google-cloud-sdk/bin/gcloud init
   - echo "$GCP_SERVICE_ACCOUNT_KEY" | base64 -d -i > /gcp-key.json
   - gcloud auth activate-service-account --key-file /gcp-key.json
   - gcloud --quiet config set project $GCP_PROJECT_ID
