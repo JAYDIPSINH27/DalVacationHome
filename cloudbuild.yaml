@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/csci-5410-serverless-project/frontend/frontend:$SHORT_SHA', './frontend']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['tag', 'us-central1-docker.pkg.dev/csci-5410-serverless-project/frontend/frontend:$SHORT_SHA', 'REGION-docker.pkg.dev/PROJECT_ID/REPOSITORY_NAME/IMAGE_NAME:latest']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/csci-5410-serverless-project/frontend/frontend:$SHORT_SHA']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/csci-5410-serverless-project/frontend/frontend:latest']
+
+images:
+  - 'us-central1-docker.pkg.dev/csci-5410-serverless-project/frontend/frontend:$SHORT_SHA'
+  - 'us-central1-docker.pkg.dev/csci-5410-serverless-project/frontend/frontend:latest'
