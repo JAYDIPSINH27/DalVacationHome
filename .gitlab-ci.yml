@@ -1,0 +1,30 @@
+image: docker:latest
+
+variables:
+  DOCKER_DRIVER: overlay2
+  
+services:
+  - docker:dind
+
+before_script:
+  - echo "$GCP_SERVICE_ACCOUNT_KEY" | base64 --decode -i > /gcp-key.json
+  - gcloud auth activate-service-account --key-file /gcp-key.json
+  - gcloud --quiet config set project $GCP_PROJECT_ID
+  - gcloud auth configure-docker $REGION-docker.pkg.dev
+
+stages:
+  - build
+  - push
+
+build:
+  stage: build
+  script:
+    - cd frontend
+    - docker build -t $REGION-docker.pkg.dev/$GCP_PROJECT_ID/$ARTIFACT_REGISTRY_REPO/$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA .
+    - docker tag $REGION-docker.pkg.dev/$GCP_PROJECT_ID/$ARTIFACT_REGISTRY_REPO/$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA $REGION-docker.pkg.dev/$GCP_PROJECT_ID/$ARTIFACT_REGISTRY_REPO/$DOCKER_IMAGE:latest
+
+push:
+  stage: push
+  script:
+    - docker push $REGION-docker.pkg.dev/$GCP_PROJECT_ID/$ARTIFACT_REGISTRY_REPO/$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA
+    - docker push $REGION-docker.pkg.dev/$GCP_PROJECT_ID/$ARTIFACT_REGISTRY_REPO/$DOCKER_IMAGE:latest
