@@ -9,6 +9,6 @@ FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY --from=build-stage /app/dist .
-COPY --from=build-stage /app/src/nginx.conf /etc/nginx/nginx.conf
+COPY --from=build-stage /app/nginx.conf /etc/nginx/nginx.conf
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
