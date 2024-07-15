@@ -44,11 +44,10 @@ build_cloudformation:
 execute_init_cloudformation:
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
   stage: execute_init_cloudformation
-  before_script:
+  script:
     - rm -rf ~/.aws/credentials
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws configure set region $AWS_DEFAULT_REGION
-  script:
     - aws --version
     - aws cloudformation deploy --template-file ./infrastructure/init.yaml --stack-name PreDeployStack
