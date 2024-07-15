@@ -45,4 +45,5 @@ execute_init_cloudformation:
   image: amazon/aws-cli
   stage: execute_init_cloudformation
   script:
+    - aws --version
     - aws cloudformation deploy --template-file ./infrastructure/init.yaml --stack-name PreDeployStack
