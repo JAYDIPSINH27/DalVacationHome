@@ -6,15 +6,12 @@ install_dependencies:
   stage: install
   script:
     - >
-      for dir in Lambdas/src/*; do
-        echo "Checking $dir..."
-        if [ -d "$dir" ]; then
-          if [ -f "$dir/package.json" ]; then
-            echo "Found package.json in $dir. Running npm install..."
-            cd "$dir" && npm install && cd -
-          else
-            echo "No package.json found in $dir. Skipping npm install."
-          fi
+      find . -type d | while read dir; do
+        if [ -f "$dir/package.json" ]; then
+          echo "Found package.json in $dir. Running npm install..."
+          cd "$dir" && npm install && cd -
+        else
+          echo "No package.json found in $dir. Skipping npm install."
         fi
       done
     - ls -la Lambdas/src/rooms/GET
