@@ -5,6 +5,7 @@ install_dependencies:
   image: node:20-alpine
   stage: install
   script:
+    - cd Lambdas/src
     - >
       find . -type d | while read dir; do
         if [ -f "$dir/package.json" ]; then
