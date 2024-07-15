@@ -1,5 +1,6 @@
 stages:
   - install
+  - build_cloudformation
 
 install_dependencies:
   image: node:20-alpine
@@ -18,3 +19,21 @@ install_dependencies:
     - ls -la Lambdas/src/rooms/GET
   only:
     - test-ci
+  artifacts:
+    paths:
+      - Lambdas/src/**
+
+build_cloudformation:
+  image: node:20-alpine
+  stage: build_cloudformation
+  script:
+    - cd Lambdas
+    - mkdir output
+    - ../infrastructure
+    - node generate_api_gateway.js
+  only:
+    - test-ci
+  artifacts:
+    paths:
+      - output.yaml
+      - Lambdas/src/**
