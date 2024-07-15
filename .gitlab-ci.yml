@@ -28,7 +28,7 @@ build_cloudformation:
   script:
     - cd Lambdas
     - mkdir output
-    - ../infrastructure
+    - cd ../infrastructure
     - node generate_api_gateway.js
   only:
     - test-ci
