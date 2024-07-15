@@ -35,5 +35,5 @@ build_cloudformation:
     - test-ci
   artifacts:
     paths:
-      - output.yaml
+      - infrastructure/output.yaml
       - Lambdas/src/**
