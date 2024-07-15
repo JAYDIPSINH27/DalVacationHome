@@ -1,0 +1,8 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS Initial Infrastructure
+
+Resources:
+  LambdaCodeBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: 'csci-5410-s24-sdp-5-lambda-code'
