@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const archiver = require('archiver');
 
-const ACCOUNT_ID = process.env.ACCOUNT_ID || "845434235447";
-const LAMBDA_EXECUTION_ROLE =  `arn:aws:iam::${ACCOUNT_ID}:role/LabRole`;
+const AWS_ACCOUNT_ID = process.env.AWS_ACCOUNT_ID || "845434235447";
+const LAMBDA_EXECUTION_ROLE =  `arn:aws:iam::${AWS_ACCOUNT_ID}:role/LabRole`;
 const LAMBDA_ZIP_DIR = '../Lambdas/output';
 const API_GATEWAY_NAME = 'myApiGateway';
 const generated_function_names = [];
