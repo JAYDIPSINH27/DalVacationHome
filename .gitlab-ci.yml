@@ -29,7 +29,8 @@ build_cloudformation:
     - cd Lambdas
     - mkdir output
     - cd ../infrastructure
-    - node generate_api_gateway.js
+    - npm install
+    - node generate_apigateway_cloudbuild.js
   only:
     - test-ci
   artifacts:
