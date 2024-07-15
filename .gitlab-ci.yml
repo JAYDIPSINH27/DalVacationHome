@@ -16,6 +16,6 @@ install_dependencies:
           fi
         fi
       done
-    - ls -la
+    - ls -la Lambdas/src/rooms/GET
   only:
     - test-ci
