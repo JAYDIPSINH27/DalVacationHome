@@ -17,11 +17,11 @@ install_dependencies:
           echo "No package.json found in $dir. Skipping npm install."
         fi
       done
-  only:
-    - test-ci
   artifacts:
     paths:
       - Lambdas/src/**
+  only:
+    - main
 
 build_cloudformation:
   image: node:20-alpine
@@ -32,13 +32,13 @@ build_cloudformation:
     - cd ../infrastructure
     - npm install
     - node generate_apigateway_cloudbuild.js
-  only:
-    - test-ci
   artifacts:
     paths:
       - infrastructure/output.yaml
       - Lambdas/src/**
       - Lambdas/output/**
+  only:
+    - main
 
 execute_cloudformation:
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
@@ -50,3 +50,5 @@ execute_cloudformation:
     - aws s3 cp Lambdas/output/ s3://csci-5410-s24-sdp-5-lambda-code/ --recursive
     - aws cloudformation deploy --template-file ./infrastructure/output.yaml --stack-name ApiDeploymentStack --capabilities CAPABILITY_NAMED_IAM
     - aws cloudformation wait stack-create-complete --stack-name ApiDeploymentStack
+  only:
+    - main
