@@ -2,7 +2,6 @@ stages:
   - install
   - build_cloudformation
   - execute_init_cloudformation
-  - execute_cloudformation
 
 install_dependencies:
   image: node:20-alpine
@@ -42,8 +41,11 @@ build_cloudformation:
       - Lambdas/output/**
 
 execute_init_cloudformation:
-  image: amazon/aws-cli
+  image: node:20-alpine
   stage: execute_init_cloudformation
-  script:
+  before_script:
+    - apk add --no-cache python3 py3-pip
+    - pip install awscli
     - aws --version
-    - aws cloudformation deploy --template-file ./infrastructure/init.yaml --stack-name PreDeployStack
+  script:
+    - aws cloudformation deploy --template-file ./infrastructure/init.yaml --stack-name PreDeployStack --capabilities CAPABILITY_NAMED_IAM
