@@ -1,0 +1,21 @@
+stages:
+  - install
+
+install_dependencies:
+  image: node:20-alpine
+  stage: install
+  script:
+    - >
+      for dir in Lambdas/src/*; do
+        if [ -d "$dir" ]; then
+          if [ -f "$dir/package.json" ]; then
+            echo "Found package.json in $dir. Running npm install..."
+            cd "$dir" && npm install && cd -
+          else
+            echo "No package.json found in $dir. Skipping npm install."
+          fi
+        fi
+      done
+    - ls -la
+  only:
+    - test-ci
