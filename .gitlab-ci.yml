@@ -50,9 +50,11 @@ execute_cloudformation:
     - if [ "$STACK_STATUS" = "REVIEW_IN_PROGRESS" ] || [ "$STACK_STATUS" = "CREATE_IN_PROGRESS" ] || [ "$STACK_STATUS" = "UPDATE_IN_PROGRESS" ] || [ "$STACK_STATUS" = "ROLLBACK_IN_PROGRESS" ]; then echo "PreDeployStack is in progress state"; exit 1; fi
     - if [ "$STACK_STATUS" = "DELETE_IN_PROGRESS" ] || [ "$STACK_STATUS" = "DELETE_COMPLETE" ]; then echo "PreDeployStack is being deleted or deleted"; STACK_STATUS=""; fi
     - if [ -z "$STACK_STATUS" ]; then
+        echo "Creating PreDeployStack...";
         aws cloudformation deploy --template-file ./infrastructure/init.yaml --stack-name PreDeployStack --capabilities CAPABILITY_NAMED_IAM;
         aws cloudformation wait stack-create-complete --stack-name PreDeployStack;
       else
+        echo "updating PreDeployStack...";
         aws cloudformation update-stack --template-file ./infrastructure/init.yaml --stack-name PreDeployStack --capabilities CAPABILITY_NAMED_IAM;
         aws cloudformation wait stack-update-complete --stack-name PreDeployStack;
       fi
