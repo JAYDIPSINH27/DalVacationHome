@@ -22,7 +22,7 @@ install_dependencies:
     paths:
       - Lambdas/src/**
   only:
-    - main
+    - jaydip/test-cicd
 
 build_cloudformation:
   when: manual
@@ -40,7 +40,7 @@ build_cloudformation:
       - Lambdas/src/**
       - Lambdas/output/**
   only:
-    - main
+    - jaydip/test-cicd
 
 execute_cloudformation:
   when: manual
@@ -63,4 +63,4 @@ execute_cloudformation:
     #     echo "API Gateway REST API ID not found"; exit 1;
     #   fi
   only:
-    - main
+    - jaydip/test-cicd
