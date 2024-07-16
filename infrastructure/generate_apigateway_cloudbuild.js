@@ -31,7 +31,7 @@ const generateFunctionYamlCode = (functionName) => {
             Handler: index.handler
             Role: ${LAMBDA_EXECUTION_ROLE} 
             Code: 
-                S3Bucket: csci-5410-s24-sdp-5-lambda-code
+                S3Bucket: csci-5410-s24-sdp-5-lambda-code-jaydip
                 S3Key: ${functionName}.zip
             Runtime: nodejs20.x
             FunctionName: ${functionName}
