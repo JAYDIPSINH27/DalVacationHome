@@ -4,7 +4,7 @@ stages:
   - execute_cloudformation
 
 install_dependencies:
-  when: manual
+  # when: manual
   image: node:20-alpine
   stage: install
   script:
@@ -25,7 +25,7 @@ install_dependencies:
     - jaydip/test-cicd
 
 build_cloudformation:
-  when: manual
+  # when: manual
   image: node:20-alpine
   stage: build_cloudformation
   script:
