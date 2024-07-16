@@ -6,3 +6,22 @@ Resources:
     Type: 'AWS::S3::Bucket'
     Properties:
       BucketName: 'csci-5410-s24-sdp-5-lambda-code'
+      
+  DalVacationBookingQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: DalVacationBooking
+
+  BookingsTableQueue:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: BookingsTable
+      AttributeDefinitions:
+        - AttributeName: Id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: Id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
