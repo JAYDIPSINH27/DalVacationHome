@@ -4,6 +4,7 @@ stages:
   - execute_cloudformation
 
 install_dependencies:
+  when: manual
   image: node:20-alpine
   stage: install
   script:
@@ -24,6 +25,7 @@ install_dependencies:
     - main
 
 build_cloudformation:
+  when: manual
   image: node:20-alpine
   stage: build_cloudformation
   script:
@@ -41,6 +43,7 @@ build_cloudformation:
     - main
 
 execute_cloudformation:
+  when: manual
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
   stage: execute_cloudformation
   script:

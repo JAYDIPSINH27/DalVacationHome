@@ -17,10 +17,10 @@ Resources:
     Properties:
       TableName: BookingsTable
       AttributeDefinitions:
-        - AttributeName: Id
+        - AttributeName: bookingId
           AttributeType: S
       KeySchema:
-        - AttributeName: Id
+        - AttributeName: bookingId
           KeyType: HASH
       ProvisionedThroughput:
         ReadCapacityUnits: 1

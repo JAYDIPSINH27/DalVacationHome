@@ -41,6 +41,7 @@ export const handler = async (event) => {
                     userId:data.userId,
                     arn:data.arn,
                     createdAt: new Date().toISOString(),
+                    status: 'PENDING',
                 },
             };
 
@@ -56,10 +57,10 @@ export const handler = async (event) => {
                 }),
             };
 
-            await sqs.sendMessage(sqsParams).promise1();
+            await sqs.sendMessage(sqsParams).promise();
 
             // Set success response
-            responseBody = { message: 'Booking created successfully.', bookingId };
+            responseBody = { message: 'Booking request in process!', bookingId };
             statusCode = 201;
         }
     } catch (error) {

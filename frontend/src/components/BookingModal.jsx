@@ -4,14 +4,15 @@ import axios from 'axios';
 import { format, eachDayOfInterval } from 'date-fns';
 import { toast } from 'react-toastify';
 import { AuthenticationContext } from "../AuthenticationContextProvider";
+import { createBooking } from '../services/bookService';
 
 const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDetails, disabledDates }) => {
-    const { loading, userRole, userAttributesMap } = useContext(AuthenticationContext);
+    const { userAttributesMap } = useContext(AuthenticationContext);
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState(userAttributesMap.current.email);
     const [bookingError, setBookingError] = useState(null);
 
-    const handleConfirmBooking = () => {
+    const handleConfirmBooking = async () => {
         if (userName && email) {
             const bookingData = {
                 roomId,
@@ -23,24 +24,18 @@ const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDet
                 email,
             };
 
-            axios.post(import.meta.env.VITE_BOOKING_API_URL, bookingData)
-                .then(response => {
-                    setBookingDetails(response.data);
-                    onClose(); // Close modal on successful booking
-                    toast.success('Booking confirmed successfully!', {
-                        position: "top-right",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                    });
-                })
-                .catch(error => {
-                    console.error('Error booking:', error);
-                    setBookingError('Failed to confirm booking. Please try again.'); // Set booking error
-                });
+            try {
+                const response = await createBooking(bookingData);
+                console.log(response);
+                toast.success(response.message);
+                // TODO: Redirect to booking details page
+                setTimeout(() => {
+                    onClose();
+                }, 1000);
+            }catch (error) {
+                console.error(error);
+                throw error;
+            }
         } else {
             alert('Please fill in all fields.');
         }
