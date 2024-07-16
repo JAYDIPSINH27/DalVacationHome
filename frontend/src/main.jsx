@@ -24,6 +24,7 @@ import ChatClient from "./components/ChatClient";
 import ChatAgent from "./components/ChatAgent";
 import RoomListing from "./pages/RoomListing";
 import RoomDetails from "./pages/RoomDetails";
+import RoomBookings from "./pages/RoomBookings";
 const queryClient = new QueryClient();
 
 const PrivateRoute = ({ children, isAuthenticated }) => {
@@ -47,6 +48,7 @@ const AppRouter = ({ loggedInRole }) => {
                 <Route path="/roomDetails" element={<RoomDetails />} />
                 <Route path="/roomListing" element={< RoomListing/>} />
                 <Route path="/room/:roomId" element={<RoomDetail />} />
+                <Route path="/bookings" element={<RoomBookings />} />
                 <Route path="/login" element={<SignIn />} />,
                 <Route path="/register" element={<Register />} />,
                 <Route

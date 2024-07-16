@@ -41,7 +41,7 @@ export const handler = async (event) => {
                     userId:data.userId,
                     arn:data.arn,
                     createdAt: new Date().toISOString(),
-                    status: 'PENDING',
+                    bookingStatus: 'PENDING',
                 },
             };
 

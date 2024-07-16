@@ -45,8 +45,15 @@ export const handler = async (event) => {
         const decoded = await verifyToken(token);
         console.log("User is authenticated:", decoded);
 
+        const userSub = decoded.UserAttributes.find(
+            (attr) => attr.Name === "sub"
+        ).Value;
         const params = {
             TableName: "BookingsTable",
+            FilterExpression: "userId = :userId",
+            ExpressionAttributeValues: {
+                ":userId": userSub,
+            },
         };
 
         console.log("Scanning table:", params.TableName);
@@ -62,7 +69,7 @@ export const handler = async (event) => {
             },
             body: JSON.stringify(items),
         };
-    } catch (error) {
+    } catch (err) {
         console.error(err);
         return {
             statusCode: 500,

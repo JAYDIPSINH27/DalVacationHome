@@ -9,7 +9,6 @@ import Button from "@mui/material/Button";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import CustomButton from "./CustomButton";
 import { logout } from "../CognitoHelper";
 import { useContext } from "react";
 import { AuthenticationContext } from "../AuthenticationContextProvider";
@@ -50,8 +49,8 @@ export default function Navbar() {
                     <Button color="inherit" component={Link} to="/app/client">
                         Rooms
                     </Button>
-                    <Button color="inherit" component={Link} to="/clientQuery">
-                        Query
+                    <Button color="inherit" component={Link} to="/bookings">
+                        Bookings
                     </Button>
 
                     </>
