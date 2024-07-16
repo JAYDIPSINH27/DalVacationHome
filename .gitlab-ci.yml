@@ -50,7 +50,7 @@ execute_cloudformation:
     - aws s3 cp Lambdas/output/ s3://csci-5410-s24-sdp-5-lambda-code/ --recursive
    # Check if ApiDeploymentStack exists
     - aws cloudformation deploy --template-file ./infrastructure/output.yaml --stack-name ApiDeploymentStack --capabilities CAPABILITY_NAMED_IAM;
-    - timeout 60 aws cloudformation wait stack-create-complete --stack-name ApiDeploymentStack;
+    # - timeout 60 aws cloudformation wait stack-create-complete --stack-name ApiDeploymentStack;
 
     # Deploy API Gateway stage
     - REST_API_ID=$(aws cloudformation describe-stack-resource --stack-name ApiDeploymentStack --logical-resource-id myApiGateway --query "StackResourceDetail.PhysicalResourceId" --output text)
