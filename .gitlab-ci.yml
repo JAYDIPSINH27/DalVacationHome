@@ -21,7 +21,7 @@ install_dependencies:
     paths:
       - Lambdas/src/**
   only:
-    - main
+    - smit/agent-dashboard
 
 build_cloudformation:
   image: node:20-alpine
@@ -38,7 +38,7 @@ build_cloudformation:
       - Lambdas/src/**
       - Lambdas/output/**
   only:
-    - main
+    - smit/agent-dashboard
 
 execute_cloudformation:
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
@@ -60,4 +60,4 @@ execute_cloudformation:
         echo "API Gateway REST API ID not found"; exit 1;
       fi
   only:
-    - main
+    - smit/agent-dashboard
