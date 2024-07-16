@@ -5,13 +5,14 @@ import { format, eachDayOfInterval } from 'date-fns';
 import { toast } from 'react-toastify';
 import { AuthenticationContext } from "../AuthenticationContextProvider";
 import { createBooking } from '../services/bookService';
+import { useNavigate } from 'react-router-dom';
 
 const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDetails, disabledDates }) => {
     const { userAttributesMap } = useContext(AuthenticationContext);
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState(userAttributesMap.current.email);
     const [bookingError, setBookingError] = useState(null);
-
+    const navigate = useNavigate();
     const handleConfirmBooking = async () => {
         if (userName && email) {
             const bookingData = {
@@ -30,7 +31,7 @@ const BookingModal = ({ open, onClose, roomId, startDate, endDate, setBookingDet
                 toast.success(response.message);
                 // TODO: Redirect to booking details page
                 setTimeout(() => {
-                    onClose();
+                    navigate('/bookings'); 
                 }, 1000);
             }catch (error) {
                 console.error(error);

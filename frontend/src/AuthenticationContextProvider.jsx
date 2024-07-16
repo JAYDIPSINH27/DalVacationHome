@@ -7,6 +7,7 @@ const AuthenticationContextProvider = (props) => {
     const [loading, setLoading] = useState(true);
     const [userRole, setUserRole] = useState(null);
     const [userName, setUserName] = useState(null);
+    const userSessionRef = useRef(null);
     
     useEffect(() => {
         const userpool = getUserPool();
@@ -21,6 +22,8 @@ const AuthenticationContextProvider = (props) => {
                 console.error(error);
             } else {
                 if (session.isValid()) {
+                    userSessionRef.current = session;
+                    console.log("Session is valid", session);
                     user.getUserAttributes((err, result) => {
                         if (err) {
                             console.error(err);
@@ -43,7 +46,7 @@ const AuthenticationContextProvider = (props) => {
         });
     }, []);
   return (
-    <AuthenticationContext.Provider value={{userAttributesMap, loading, userRole, userName}}>{props.children}</AuthenticationContext.Provider>
+    <AuthenticationContext.Provider value={{userAttributesMap, loading, userRole, userName, userSessionRef}}>{props.children}</AuthenticationContext.Provider>
   )
 }
 

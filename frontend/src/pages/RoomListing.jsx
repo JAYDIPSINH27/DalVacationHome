@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Chatbot from "../components/Chatbot";
@@ -83,7 +83,6 @@ function RoomListing() {
         <Navbar />
 
         <div className="w-full p-4 flex items-center justify-center text-lg space-x-4 bg-gray-300">
-          <ToastContainer />
 
           <input
             type="date"
