@@ -34,7 +34,10 @@ const generateFunctionYamlCode = (functionName) => {
                 S3Bucket: csci-5410-s24-sdp-5-lambda-code
                 S3Key: ${functionName}.zip
             Runtime: nodejs20.x
-            FunctionName: ${functionName}`
+            FunctionName: ${functionName}
+            Environment: 
+                Variables: 
+                    AWS_ACCOUNT_ID: ${AWS_ACCOUNT_ID}`
     return initialCode;
 }
 

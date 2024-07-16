@@ -1,63 +1,63 @@
-# stages:
-#   - install
-#   - build_cloudformation
-#   - execute_cloudformation
+stages:
+  - install
+  - build_cloudformation
+  - execute_cloudformation
 
-# install_dependencies:
-#   image: node:20-alpine
-#   stage: install
-#   script:
-#     - cd Lambdas/src
-#     - >
-#       find . -type d | while read dir; do
-#         if [ -f "$dir/package.json" ]; then
-#           echo "Found package.json in $dir. Running npm install..."
-#           cd "$dir" && npm install && cd -
-#         else
-#           echo "No package.json found in $dir. Skipping npm install."
-#         fi
-#       done
-#   artifacts:
-#     paths:
-#       - Lambdas/src/**
-#   only:
-#     - main
+install_dependencies:
+  image: node:20-alpine
+  stage: install
+  script:
+    - cd Lambdas/src
+    - >
+      find . -type d | while read dir; do
+        if [ -f "$dir/package.json" ]; then
+          echo "Found package.json in $dir. Running npm install..."
+          cd "$dir" && npm install && cd -
+        else
+          echo "No package.json found in $dir. Skipping npm install."
+        fi
+      done
+  artifacts:
+    paths:
+      - Lambdas/src/**
+  only:
+    - main
 
-# build_cloudformation:
-#   image: node:20-alpine
-#   stage: build_cloudformation
-#   script:
-#     - cd Lambdas
-#     - mkdir output
-#     - cd ../infrastructure
-#     - npm install
-#     - node generate_apigateway_cloudbuild.js
-#   artifacts:
-#     paths:
-#       - infrastructure/output.yaml
-#       - Lambdas/src/**
-#       - Lambdas/output/**
-#   only:
-#     - main
+build_cloudformation:
+  image: node:20-alpine
+  stage: build_cloudformation
+  script:
+    - cd Lambdas
+    - mkdir output
+    - cd ../infrastructure
+    - npm install
+    - node generate_apigateway_cloudbuild.js
+  artifacts:
+    paths:
+      - infrastructure/output.yaml
+      - Lambdas/src/**
+      - Lambdas/output/**
+  only:
+    - main
 
-# execute_cloudformation:
-#   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
-#   stage: execute_cloudformation
-#   script:
-#     - aws --version
-#     - aws cloudformation deploy --template-file ./infrastructure/init.yaml --stack-name PreDeployStack --capabilities CAPABILITY_NAMED_IAM;
-#     - timeout 60 aws cloudformation wait stack-create-complete --stack-name PreDeployStack;
-#     - aws s3 cp Lambdas/output/ s3://csci-5410-s24-sdp-5-lambda-code/ --recursive
-#    # Check if ApiDeploymentStack exists
-#     - aws cloudformation deploy --template-file ./infrastructure/output.yaml --stack-name ApiDeploymentStack --capabilities CAPABILITY_NAMED_IAM;
-#     # - timeout 60 aws cloudformation wait stack-create-complete --stack-name ApiDeploymentStack;
+execute_cloudformation:
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  stage: execute_cloudformation
+  script:
+    - aws --version
+    - aws cloudformation deploy --template-file ./infrastructure/init.yaml --stack-name PreDeployStack --capabilities CAPABILITY_NAMED_IAM;
+    - timeout 60 aws cloudformation wait stack-create-complete --stack-name PreDeployStack;
+    - aws s3 cp Lambdas/output/ s3://csci-5410-s24-sdp-5-lambda-code/ --recursive
+   # Check if ApiDeploymentStack exists
+    - aws cloudformation deploy --template-file ./infrastructure/output.yaml --stack-name ApiDeploymentStack --capabilities CAPABILITY_NAMED_IAM;
+    # - timeout 60 aws cloudformation wait stack-create-complete --stack-name ApiDeploymentStack;
 
-#     # Deploy API Gateway stage
-#     - REST_API_ID=$(aws cloudformation describe-stack-resource --stack-name ApiDeploymentStack --logical-resource-id myApiGateway --query "StackResourceDetail.PhysicalResourceId" --output text)
-#     - if [ -n "$REST_API_ID" ]; then
-#         aws apigateway create-deployment --rest-api-id $REST_API_ID --stage-name dev;
-#       else
-#         echo "API Gateway REST API ID not found"; exit 1;
-#       fi
-#   only:
-#     - main
+    # Deploy API Gateway stage
+    # - REST_API_ID=$(aws cloudformation describe-stack-resource --stack-name ApiDeploymentStack --logical-resource-id myApiGateway --query "StackResourceDetail.PhysicalResourceId" --output text)
+    # - if [ -n "$REST_API_ID" ]; then
+    #     aws apigateway create-deployment --rest-api-id $REST_API_ID --stage-name dev;
+    #   else
+    #     echo "API Gateway REST API ID not found"; exit 1;
+    #   fi
+  only:
+    - main
