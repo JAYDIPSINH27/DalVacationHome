@@ -4,7 +4,7 @@ stages:
   - execute_cloudformation
 
 install_dependencies:
-  when: manual
+  #when: manual
   image: node:20-alpine
   stage: install
   script:
@@ -22,10 +22,10 @@ install_dependencies:
     paths:
       - Lambdas/src/**
   only:
-    - main
+    - shubham-test-cicd
 
 build_cloudformation:
-  when: manual
+  #when: manual
   image: node:20-alpine
   stage: build_cloudformation
   script:
@@ -40,7 +40,7 @@ build_cloudformation:
       - Lambdas/src/**
       - Lambdas/output/**
   only:
-    - main
+    - shubham-test-cicd
 
 execute_cloudformation:
   when: manual
@@ -50,7 +50,8 @@ execute_cloudformation:
     - aws --version
     - aws cloudformation deploy --template-file ./infrastructure/init.yaml --stack-name PreDeployStack --capabilities CAPABILITY_NAMED_IAM;
     - aws cloudformation wait stack-create-complete --stack-name PreDeployStack;
-    - aws s3 cp Lambdas/output/ s3://csci-5410-s24-sdp-5-lambda-code/ --recursive
+    - aws s3 cp Lambdas/output/ s3://csci-5410-s24-sdp-5-lambda-code-shubham/ --recursive
+
    # Check if ApiDeploymentStack exists
     - aws cloudformation deploy --template-file ./infrastructure/output.yaml --stack-name ApiDeploymentStack --capabilities CAPABILITY_NAMED_IAM;
     - aws cloudformation wait stack-create-complete --stack-name ApiDeploymentStack;
@@ -63,4 +64,4 @@ execute_cloudformation:
     #     echo "API Gateway REST API ID not found"; exit 1;
     #   fi
   only:
-    - main
+    - shubham-test-cicd
