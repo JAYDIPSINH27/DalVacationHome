@@ -1,57 +1,45 @@
 // index.mjs
-// TO test endpoint method: GET, URL: https://zwed7k68gi.execute-api.us-east-1.amazonaws.com/default/getReview?room_id=room123
+// TO test endpoint method: GET
 
+// Import necessary AWS SDK clients and commands.
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 
+// Initialize DynamoDB client and document client.
 const client = new DynamoDBClient({});
 const dynamodb = DynamoDBDocumentClient.from(client);
 
-const USER_TABLE = 'User';
+// Define the Feedback table name.
+const FEEDBACK_TABLE = 'Feedback';
 
+// Lambda handler function to process incoming events.
 export const handler = async (event) => {
     console.log("Received event:", JSON.stringify(event, null, 2));
 
-    if (!event.queryStringParameters || !event.queryStringParameters.room_id) {
-        return {
-            statusCode: 400,
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': '*',
-                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
-            },
-            body: JSON.stringify({ error: "Missing room_id query parameter" }),
-        };
-    }
-
-    const room_id = event.queryStringParameters.room_id;
-    console.log("room_id:", room_id);
-
-    const params = {
-        TableName: USER_TABLE,
+    // Define parameters for scanning the Feedback table.
+    const feedbackParams = {
+        TableName: FEEDBACK_TABLE,
     };
 
     try {
-        const data = await dynamodb.send(new ScanCommand(params));
-        console.log("DynamoDB scan data:", JSON.stringify(data, null, 2));
+        // Scan the Feedback table to retrieve all entries.
+        const feedbackData = await dynamodb.send(new ScanCommand(feedbackParams));
+        console.log("DynamoDB scan data:", JSON.stringify(feedbackData, null, 2));
 
-        const reviews = [];
-
-        data.Items.forEach(user => {
-            if (user.reviews) {
-                user.reviews.forEach(review => {
-                    if (review.room_id === room_id) {
-                        reviews.push({
-                            user_id: user.UserID,
-                            comment: review.comment,
-                        });
-                    }
-                });
-            }
+        // Process feedback data to include user and room information.
+        const feedbackWithDetails = feedbackData.Items.map((feedback) => {
+            return {
+                userId: feedback.userId || 'Unknown User ID',
+                userName: feedback.userName || 'Unknown User Name',
+                roomId: feedback.roomId || 'Unknown Room ID',
+                comment: feedback.comment || 'No comment provided',
+                timeStamp: feedback.timeStamp || 'No timestamp provided'
+            };
         });
 
-        console.log("Filtered reviews:", JSON.stringify(reviews, null, 2));
+        console.log("Feedback with user and room details:", JSON.stringify(feedbackWithDetails, null, 2));
 
+        // Return the list of feedback with user and room details.
         return {
             statusCode: 200,
             headers: {
@@ -59,11 +47,12 @@ export const handler = async (event) => {
                 'Access-Control-Allow-Headers': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
             },
-            body: JSON.stringify(reviews),
+            body: JSON.stringify(feedbackWithDetails),
         };
     } catch (err) {
         console.error("Error during DynamoDB scan:", err);
 
+        // Return error response if an exception occurs.
         return {
             statusCode: 500,
             headers: {
@@ -75,3 +64,4 @@ export const handler = async (event) => {
         };
     }
 };
+
