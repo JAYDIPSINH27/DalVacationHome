@@ -25,7 +25,6 @@ export default function Navbar() {
         setAnchorEl(null);
     };
 
-
     const handleLogout = () => {
         logout();
         window.location.href = "/login";
@@ -36,26 +35,46 @@ export default function Navbar() {
     return (
         <AppBar position="static">
             <Toolbar>
-                <Typography variant="h6" component={Link} to="/" sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}>
+                <Typography
+                    variant="h6"
+                    component={Link}
+                    to="/"
+                    sx={{
+                        flexGrow: 1,
+                        textDecoration: "none",
+                        color: "inherit",
+                    }}
+                >
                     DalVacationHome
                 </Typography>
 
-                {loading ? null : userRole === "agent" ? <Button color="inherit" component={Link} to="/agentQuery">
-                    Customer  Queries
-                </Button>
-
-                    :
+                {loading ? null : userRole === "agent" ? (
                     <>
-                    <Button color="inherit" component={Link} to="/app/client">
-                        Rooms
-                    </Button>
-                    <Button color="inherit" component={Link} to="/bookings">
-                        Bookings
-                    </Button>
-
+                        <Button
+                            color="inherit"
+                            component={Link}
+                            to="/dashboard"
+                        >
+                            Dashboard
+                        </Button>
+                        <Button color="inherit" component={Link} to="/tickets">
+                            Assigned Tickets
+                        </Button>
                     </>
-
-                }
+                ) : (
+                    <>
+                        <Button
+                            color="inherit"
+                            component={Link}
+                            to="/app/client"
+                        >
+                            Rooms
+                        </Button>
+                        <Button color="inherit" component={Link} to="/bookings">
+                            Bookings
+                        </Button>
+                    </>
+                )}
 
                 <Box sx={{ flexGrow: 1 }} />
 
@@ -84,18 +103,24 @@ export default function Navbar() {
                     id="menu-appbar"
                     anchorEl={anchorEl}
                     anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
+                        vertical: "top",
+                        horizontal: "right",
                     }}
                     keepMounted
                     transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
+                        vertical: "top",
+                        horizontal: "right",
                     }}
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem onClick={handleClose} component={Link} to="/profile">Profile</MenuItem>
+                    <MenuItem
+                        onClick={handleClose}
+                        component={Link}
+                        to="/profile"
+                    >
+                        Profile
+                    </MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
             </Toolbar>
