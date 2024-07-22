@@ -112,7 +112,10 @@ export const handler = async (event) => {
         return {
             statusCode: 200,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Access-Control-Allow-Origin': '*', // Allow all origins or specify your domain
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
             },
             body: JSON.stringify({
                 message: 'Sentiment analysis completed for all feedback items',
@@ -124,7 +127,10 @@ export const handler = async (event) => {
         return {
             statusCode: 500,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Access-Control-Allow-Origin': '*', // Allow all origins or specify your domain
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
             },
             body: JSON.stringify({
                 message: `Error occurred: ${error.message}`
