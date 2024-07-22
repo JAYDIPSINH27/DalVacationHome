@@ -1,7 +1,6 @@
 // index.mjs
 // TO test endpoint method: GET
 
-// Import necessary AWS SDK clients and commands.
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 
@@ -64,4 +63,3 @@ export const handler = async (event) => {
         };
     }
 };
-

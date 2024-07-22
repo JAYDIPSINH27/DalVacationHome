@@ -26,7 +26,7 @@ const initializeLanguageClient = async () => {
 
 // Function to get GCP credentials from AWS Parameter Store
 const getGCPcredentials = async () => {
-    const parameterName = 'gcp-credentials';
+    const parameterName = 'gcp-credentials'; // Replace with your parameter name
     const command = new GetParameterCommand({ Name: parameterName, WithDecryption: true });
     const response = await ssmClient.send(command);
     return JSON.parse(response.Parameter.Value);
@@ -77,7 +77,7 @@ export const handler = async (event) => {
             const feedbackId = item.feedbackId; // Use 'feedbackId'
             const feedbackText = item.comment; // Use 'comment'
             const userId = item.userId; // Use 'userId'
-            const userName = item.UserName; // Use 'UserName'
+            const userName = item.userName; // Use 'UserName'
             const roomId = item.roomId; // Use 'roomId'
             const timeStamp = item.timeStamp; // Use 'timeStamp'
 
@@ -100,7 +100,7 @@ export const handler = async (event) => {
 
             updatedItems.push({
                 userId: item.userId || 'Unknown User ID',
-                userName: item.UserName || 'Unknown User Name',
+                userName: item.userName || 'Unknown User Name',
                 roomId: item.roomId || 'Unknown Room ID',
                 comment: item.comment || 'No comment provided',
                 sentimentScore: sentiment.score,
