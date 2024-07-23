@@ -27,6 +27,9 @@ import RoomDetails from "./pages/RoomDetails";
 import RoomBookings from "./pages/RoomBookings";
 import TicketDetails from "./pages/TicketDetails";
 import AgentTickets from "./pages/AgentTickets";
+import AgentSentiment from "./components/AgentSentiment";
+import AgentReviews from "./components/AgentReviews";
+
 const queryClient = new QueryClient();
 
 const PrivateRoute = ({ children, isAuthenticated }) => {
@@ -82,6 +85,8 @@ const AppRouter = ({ loggedInRole }) => {
                 />
                 <Route path="/dashboard" element={<AgentDashboard/>} />
                 <Route path="/clientQuery" element={<ChatClient/>} />
+                <Route path="/sentiment" element={<AgentSentiment/>} />
+                <Route path="/reviews" element={<AgentReviews/>} />
                 <Route path="/tickets" element={<AgentTickets/>} />
                 <Route path="*" element={<PageNotFound/>} />
             </Routes>
