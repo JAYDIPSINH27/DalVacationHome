@@ -14,17 +14,18 @@ function ReviewSection({ isLoggedIn }) {
     const [newReview, setNewReview] = useState('');
     const [email, setEmail] = useState('');
     const [reviews, setReviews] = useState([]);
+    const [isReviewAdded, setIsReviewAdded] = useState(false);
 
     useEffect(() => {
         // Fetch reviews from the API
-        axios.get('https://ndj7bemrz7.execute-api.us-east-1.amazonaws.com/test/review')
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/review`)
             .then(response => {
                 setReviews(response.data);
             })
             .catch(error => {
                 console.error('Error fetching reviews:', error);
             });
-    }, []);
+    }, [isReviewAdded]); // Re-fetch reviews when isReviewAdded changes
 
     const handleBookingReferenceSubmit = () => {
         // Here you would typically verify the booking reference
@@ -32,18 +33,20 @@ function ReviewSection({ isLoggedIn }) {
         setShowReviewForm(true);
     };
 
-    const handleReviewSubmit = () => {
+    const handleReviewSubmit = (event) => {
+        event.preventDefault(); // Prevent form from refreshing the page
+
         const reviewData = {
             email: email,
             comment: newReview,
             bookingReferenceCode: bookingReference
         };
 
-        axios.post('https://ndj7bemrz7.execute-api.us-east-1.amazonaws.com/test/review', reviewData)
+        axios.post(`${import.meta.env.VITE_API_BASE_URL}/review`, reviewData)
             .then(response => {
                 console.log('Review submitted:', response.data);
-                // Optionally, you can fetch the updated reviews after submission
-                setReviews([...reviews, response.data]);
+                // Toggle the isReviewAdded state to re-fetch the reviews
+                setIsReviewAdded(prev => !prev);
                 setNewReview('');
                 setEmail('');
                 setBookingReference('');
@@ -60,7 +63,7 @@ function ReviewSection({ isLoggedIn }) {
             {reviews?.map((review) => (
                 <Paper key={review.userId} elevation={2} sx={{ p: 2, mb: 2 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                        <Avatar sx={{ mr: 2 }}>{review.userName[0]}</Avatar>
+                        <Avatar sx={{ mr: 2 }}>U</Avatar>
                         <Typography variant="subtitle1">{review.userName}</Typography>
                     </Box>
                     <Typography 
@@ -92,7 +95,7 @@ function ReviewSection({ isLoggedIn }) {
                             </Button>
                         </Box>
                     ) : (
-                        <Box>
+                        <form onSubmit={handleReviewSubmit}>
                             <TextField
                                 fullWidth
                                 label="Email"
@@ -111,11 +114,11 @@ function ReviewSection({ isLoggedIn }) {
                             />
                             <Button 
                                 variant="contained" 
-                                onClick={handleReviewSubmit}
+                                type="submit"
                             >
                                 Submit Review
                             </Button>
-                        </Box>
+                        </form>
                     )}
                 </Box>
             )}

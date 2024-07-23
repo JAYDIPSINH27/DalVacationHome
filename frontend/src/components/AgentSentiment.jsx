@@ -97,11 +97,11 @@ const App = () => {
   useEffect(() => {
     axios({
       method: 'get',
-      url: 'https://ndj7bemrz7.execute-api.us-east-1.amazonaws.com/test/sentimentAnalysis',
+      url: `${import.meta.env.VITE_API_BASE_URL}/sentimentAnalysis`,
       headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-        
+
           }
       })
       .then(response => {

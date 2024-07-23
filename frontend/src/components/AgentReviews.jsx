@@ -55,7 +55,7 @@ const AgenReviews = () => {
   };
 
   useEffect(() => {
-    axios.get('https://ndj7bemrz7.execute-api.us-east-1.amazonaws.com/test/review')
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/review`)
       .then(response => {
         setData(response.data);
         setLoading(false);
