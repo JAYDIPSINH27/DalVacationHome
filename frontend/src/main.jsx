@@ -50,7 +50,6 @@ const AppRouter = ({ loggedInRole }) => {
                         !loggedInRole ? <Navigate to="/roomListing" /> : <Navigate to="/app" />
                     }
                 />
-                <Route path="/roomDetails" element={<RoomDetails />} />
                 <Route path="/roomListing" element={< RoomListing/>} />
                 <Route path="/room/:roomId" element={<RoomDetail />} />
                 <Route path="/ticket/:ticketId" element={<TicketDetails />} />
