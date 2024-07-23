@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField,
+    Typography,
+} from "@mui/material";
 
 const AddRoomForm = ({ room, onSave, onClose }) => {
     const [name, setName] = useState("");
@@ -7,6 +16,7 @@ const AddRoomForm = ({ room, onSave, onClose }) => {
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [capacity, setCapacity] = useState("");
+    const [type, setType] = useState("room");
     const [image, setImage] = useState("");
 
     useEffect(() => {
@@ -15,13 +25,22 @@ const AddRoomForm = ({ room, onSave, onClose }) => {
             setDescription(room.description);
             setPrice(room.price);
             setCapacity(room.capacity);
+            setType(room.type);
             setRoomNumber(room.room_number);
         }
     }, [room]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await onSave({ name, description, price, capacity, image, room_number });
+        await onSave({
+            name,
+            description,
+            price,
+            capacity,
+            image,
+            room_number,
+            type,
+        });
         onClose();
     };
 
@@ -61,14 +80,23 @@ const AddRoomForm = ({ room, onSave, onClose }) => {
                 type="number"
                 required
             />
+            <FormControl fullWidth margin="normal">
+                <InputLabel id="type-label">Type</InputLabel>
+                <Select labelId="type-label" id="type-select" label="Type" value={type} onChange={(e)=>{setType(e.target.value)}}>
+                    <MenuItem value="room">Room</MenuItem>
+                    <MenuItem value="rec_room">Rec Room</MenuItem>
+                </Select>
+            </FormControl>
             <div>
-                <label>Room Image</label><br />
+                <label>Room Image</label>
+                <br />
                 <input
                     type="file"
                     accept="image/*"
                     onChange={(e) => setImage(e.target.files)}
                 />
             </div>
+
             <Button
                 type="submit"
                 variant="contained"

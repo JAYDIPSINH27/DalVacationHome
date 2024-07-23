@@ -19,7 +19,7 @@ export const handler = async (event) => {
     console.log({ result });
 
     // Extract fields
-    const { room_number, name, price, capacity, files, description } = result;
+    const { room_number, name, price, capacity, files, description, type } = result;
     const image = files ? files[0] : null;
     
     console.log({
@@ -31,7 +31,7 @@ export const handler = async (event) => {
     });
 
     // Validate and convert data types
-    if (!room_number || !name || !price || !capacity || !description) {
+    if (!room_number || !name || !price || !capacity || !description || !type) {
       throw new Error('Missing required fields!!');
     }
 
@@ -56,12 +56,13 @@ export const handler = async (event) => {
     const updateParams = {
       TableName: TABLE_NAME,
       Key: { room_number: { N: room_number.toString() } },
-      UpdateExpression: 'set #name = :name, #price = :price, #capacity = :capacity, #description = :description' + (imageUrl ? ', #image = :image' : ''),
+      UpdateExpression: 'set #name = :name, #price = :price, #capacity = :capacity, #description = :description, #type = :type' + (imageUrl ? ', #image = :image' : ''),
       ExpressionAttributeNames: {
         '#name': 'name',
         '#price': 'price',
         '#capacity': 'capacity',
         '#description': 'description',
+        '#type': 'type',
         ...(imageUrl && { '#image': 'image' })
       },
       ExpressionAttributeValues: {
@@ -69,6 +70,7 @@ export const handler = async (event) => {
         ':price': { N: pricePerNight.toString() },
         ':capacity': { N: capacityValue.toString() },
         ':description': { S: description.toString() },
+        ':type': { S: type },
         ...(imageUrl && { ':image': { S: imageUrl } })
       },
       ReturnValues: 'ALL_NEW'
