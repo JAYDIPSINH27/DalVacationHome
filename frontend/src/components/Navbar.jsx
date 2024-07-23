@@ -57,6 +57,9 @@ export default function Navbar() {
                         >
                             Dashboard
                         </Button>
+                        <Button color="inherit" component={Link} to="/statistics">
+                            Statistics
+                        </Button>
                         <Button color="inherit" component={Link} to="/tickets">
                             Assigned Tickets
                         </Button>

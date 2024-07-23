@@ -29,6 +29,7 @@ import TicketDetails from "./pages/TicketDetails";
 import AgentTickets from "./pages/AgentTickets";
 import AgentSentiment from "./components/AgentSentiment";
 import AgentReviews from "./components/AgentReviews";
+import AgentStatistics from './components/AgentStatistics'
 
 const queryClient = new QueryClient();
 
@@ -88,6 +89,7 @@ const AppRouter = ({ loggedInRole }) => {
                 <Route path="/sentiment" element={<AgentSentiment/>} />
                 <Route path="/reviews" element={<AgentReviews/>} />
                 <Route path="/tickets" element={<AgentTickets/>} />
+                <Route path="/statistics" element={<AgentStatistics/>} />
                 <Route path="*" element={<PageNotFound/>} />
             </Routes>
         </BrowserRouter>
