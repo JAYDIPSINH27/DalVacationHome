@@ -3,8 +3,9 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.0.0",
     "@aws-sdk/util-dynamodb": "^3.0.0",
+    "@google-cloud/language": "^5.0.0",
     "uuid": "^9.0.0",
-    "fs": "0.0.1-security"
-
+    "fs": "0.0.1-security",
+    "@aws-sdk/client-ssm": "^3.0.0"
   }
 }

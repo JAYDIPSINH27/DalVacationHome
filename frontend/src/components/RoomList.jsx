@@ -8,18 +8,18 @@ const RoomList = ({ rooms, onDelete, onEdit }) => {
         <Box>
             <Typography variant="h6" gutterBottom>Room List</Typography>
             <List>
-                {rooms.map((room, index) => (
+                {rooms?.map((room, index) => (
                     <ListItem key={index} secondaryAction={
                         <>
                             <IconButton edge="end" aria-label="edit" onClick={() => onEdit(room)}>
                                 <EditIcon />
                             </IconButton>
-                            <IconButton edge="end" aria-label="delete" onClick={() => onDelete(index)}>
+                            <IconButton edge="end" aria-label="delete" onClick={() => onDelete(room?.room_number)}>
                                 <DeleteIcon />
                             </IconButton>
                         </>
                     }>
-                        <ListItemText primary={room.name} secondary={`Price: $${room.price} / night`} />
+                        <ListItemText primary={room?.name} secondary={`Price: $${room?.price} / night`} />
                     </ListItem>
                 ))}
             </List>

@@ -113,14 +113,13 @@ const SignIn = () => {
                         'Content-Type': 'application/json',
                     }})
                 
-                    navigate("/");
-                // const search = new  URLSearchParams(window.location.search);
-                // const redirect = search.get("redirect");
-                // if(redirect){
-                //     window.location.replace(decodeURIComponent(redirect));
-                // }else{
-                //     window.location.replace("/");
-                // }
+                const search = new  URLSearchParams(window.location.search);
+                const redirect = search.get("redirect");
+                if(redirect){
+                    window.location.replace(decodeURIComponent(redirect));
+                }else{
+                    window.location.replace("/");
+                }
 
             },
             onFailure: (err) => {
