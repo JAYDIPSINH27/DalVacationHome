@@ -1,11 +1,6 @@
-import React, { useState } from 'react';
-import { Box, Typography, Avatar, TextField, Button, Paper, Divider } from '@mui/material';
-
-const dummyReviews = [
-    { id: 1, user: 'John D.', comment: 'Great room, loved the view!', sentiment: 'positive' },
-    { id: 2, user: 'Sarah M.', comment: 'Decent stay, but a bit noisy.', sentiment: 'neutral' },
-    { id: 3, user: 'Mike R.', comment: 'Disappointing experience overall.', sentiment: 'negative' },
-];
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Box, Typography, Avatar, TextField, Button, Paper } from '@mui/material';
 
 const sentimentColors = {
     positive: 'green',
@@ -17,6 +12,19 @@ function ReviewSection({ isLoggedIn }) {
     const [bookingReference, setBookingReference] = useState('');
     const [showReviewForm, setShowReviewForm] = useState(false);
     const [newReview, setNewReview] = useState('');
+    const [email, setEmail] = useState('');
+    const [reviews, setReviews] = useState([]);
+
+    useEffect(() => {
+        // Fetch reviews from the API
+        axios.get('https://ndj7bemrz7.execute-api.us-east-1.amazonaws.com/test/review')
+            .then(response => {
+                setReviews(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching reviews:', error);
+            });
+    }, []);
 
     const handleBookingReferenceSubmit = () => {
         // Here you would typically verify the booking reference
@@ -25,24 +33,39 @@ function ReviewSection({ isLoggedIn }) {
     };
 
     const handleReviewSubmit = () => {
-        // Here you would typically submit the review to your backend
-        console.log('Submitted review:', newReview);
-        setNewReview('');
-        setShowReviewForm(false);
+        const reviewData = {
+            email: email,
+            comment: newReview,
+            bookingReferenceCode: bookingReference
+        };
+
+        axios.post('https://ndj7bemrz7.execute-api.us-east-1.amazonaws.com/test/review', reviewData)
+            .then(response => {
+                console.log('Review submitted:', response.data);
+                // Optionally, you can fetch the updated reviews after submission
+                setReviews([...reviews, response.data]);
+                setNewReview('');
+                setEmail('');
+                setBookingReference('');
+                setShowReviewForm(false);
+            })
+            .catch(error => {
+                console.error('Error submitting review:', error);
+            });
     };
 
     return (
         <Box sx={{ mt: 4 }}>
             <Typography variant="h5" gutterBottom>Reviews</Typography>
-            {dummyReviews.map((review) => (
-                <Paper key={review.id} elevation={2} sx={{ p: 2, mb: 2 }}>
+            {reviews?.map((review) => (
+                <Paper key={review.userId} elevation={2} sx={{ p: 2, mb: 2 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                        <Avatar sx={{ mr: 2 }}>{review.user[0]}</Avatar>
-                        <Typography variant="subtitle1">{review.user}</Typography>
+                        <Avatar sx={{ mr: 2 }}>{review.userName[0]}</Avatar>
+                        <Typography variant="subtitle1">{review.userName}</Typography>
                     </Box>
                     <Typography 
                         variant="body1" 
-                        sx={{ color: sentimentColors[review.sentiment] }}
+                        sx={{ color: sentimentColors[review.sentiment] || 'black' }}
                     >
                         {review.comment}
                     </Typography>
@@ -58,7 +81,7 @@ function ReviewSection({ isLoggedIn }) {
                                 fullWidth
                                 label="Booking Reference"
                                 value={bookingReference}
-                                onChange={(e) => setBookingReference(e.target.e)}
+                                onChange={(e) => setBookingReference(e.target.value)}
                                 sx={{ mb: 2 }}
                             />
                             <Button 
@@ -70,6 +93,13 @@ function ReviewSection({ isLoggedIn }) {
                         </Box>
                     ) : (
                         <Box>
+                            <TextField
+                                fullWidth
+                                label="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                sx={{ mb: 2 }}
+                            />
                             <TextField
                                 fullWidth
                                 multiline

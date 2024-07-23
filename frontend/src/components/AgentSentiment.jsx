@@ -95,7 +95,15 @@ const App = () => {
   };
 
   useEffect(() => {
-    axios.get('https://wh1d7ekpa5.execute-api.us-east-1.amazonaws.com/default/sentimentAnalysis')
+    axios({
+      method: 'get',
+      url: 'https://ndj7bemrz7.execute-api.us-east-1.amazonaws.com/test/sentimentAnalysis',
+      headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+        
+          }
+      })
       .then(response => {
         setData(response.data);
         setLoading(false);

@@ -55,7 +55,7 @@ const AgenReviews = () => {
   };
 
   useEffect(() => {
-    axios.get('https://x5qvfi9jal.execute-api.us-east-1.amazonaws.com/dev/review')
+    axios.get('https://ndj7bemrz7.execute-api.us-east-1.amazonaws.com/test/review')
       .then(response => {
         setData(response.data);
         setLoading(false);
