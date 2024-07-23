@@ -28,6 +28,7 @@ const AgentDashboard = () => {
             price: room.price,
             capacity: room.capacity,
             image: room.image[0],
+            type: room.type,
         };
         try {
             await addRoomMutation.mutateAsync(roomData);
@@ -46,6 +47,7 @@ const AgentDashboard = () => {
             price: room.price,
             capacity: room.capacity,
             image: room.image[0],
+            type: room.type,
         };
         try {
             await updateRoomMutation.mutateAsync(roomData);

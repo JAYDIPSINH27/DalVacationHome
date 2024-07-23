@@ -19,7 +19,7 @@ export const handler = async (event) => {
     console.log({ result });
 
     // Extract fields
-    const { name, price, capacity, files, description } = result;
+    const { name, price, capacity, files, description, type } = result;
     const image = files[0]
     
     console.log({
@@ -30,7 +30,7 @@ export const handler = async (event) => {
     })
 
     // Validate and convert data types
-    if (!name || !price || !capacity || !image || !description) {
+    if (!name || !price || !capacity || !image || !description || !type) {
       throw new Error('Missing required fields!!');
     }
 
@@ -59,7 +59,8 @@ export const handler = async (event) => {
       description: { S: description.toString() },
       price: { N: pricePerNight.toString() },
       capacity: { N: capacityValue.toString() },
-      image: { S: imageUrl }
+      image: { S: imageUrl },
+      type: { S: type },
     };
 
     await dynamoDB.send(new PutItemCommand({

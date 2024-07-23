@@ -21,6 +21,7 @@ export const addRoom = async (room) => {
         formData.append('price', room.price);
         formData.append('capacity', room.capacity);
         formData.append('image', room.image);
+        formData.append('type', room.type);
 
         const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/rooms`, {
             method: 'POST',
@@ -63,6 +64,7 @@ export const updateRoom = async (room) => {
         formData.append('price', room.price);
         formData.append('capacity', room.capacity);
         formData.append('image', room.image);
+        formData.append('type', room.type);
 
         const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/rooms`, {
             method: 'PUT',
