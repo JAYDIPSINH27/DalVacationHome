@@ -19,7 +19,9 @@ const handler = async (event) => {
             statusCode: 200,
             body: JSON.stringify(Items),
             headers: {
-                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
             },
         };
     } catch (err) {
@@ -28,7 +30,9 @@ const handler = async (event) => {
             statusCode: 500,
             body: JSON.stringify({ message: err.message }),
             headers: {
-                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
             },
         };
     }

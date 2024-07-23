@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { AuthenticationContext } from "../AuthenticationContextProvider";
-import { fetchAvailableRooms } from '../dummydata/rooms';
 import BookingModal from './BookingModal'; 
 import Navbar from './Navbar';
 import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Container, Typography } from '@mui/material';
