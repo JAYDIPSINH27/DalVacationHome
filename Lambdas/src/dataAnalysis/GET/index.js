@@ -16,7 +16,7 @@ exports.handler = async (event) => {
     try {
         console.log('Starting function execution');
 
-        const { totalUsers, activeUsers, totalBookedRooms, bookingsCountInTimeRange } = await fetchData();
+        const { totalUsers, activeUsers, totalBookedRooms, bookingsCountInTimeRange, loggedInUsersInTimeRange } = await fetchData();
         const gcpCredentials = await fetchGCPCredentials(GCP_CREDENTIALS_PARAM_NAME);
 
         await insertDataIntoBigQuery({
@@ -24,6 +24,7 @@ exports.handler = async (event) => {
             activeUsers,
             totalBookedRooms,
             bookingsCountInTimeRange,
+            loggedInUsersInTimeRange,
             gcpCredentials
         });
 
@@ -34,7 +35,8 @@ exports.handler = async (event) => {
                 total_users: totalUsers,
                 active_users: activeUsers,
                 total_booked_rooms: totalBookedRooms,
-                bookings_count_in_time_range: bookingsCountInTimeRange
+                bookings_count_in_time_range: bookingsCountInTimeRange,
+                logged_in_users_in_time_range: loggedInUsersInTimeRange
             }),
         };
     } catch (error) {
@@ -70,6 +72,13 @@ async function fetchData() {
 
     console.log(`Active users in time range: ${activeUsers}`);
 
+    console.log('Fetching logged-in users in time range');
+    const loggedInUsersInTimeRange = loginData.Items.filter(item => {
+        const loginDate = new Date(item.last_login);
+        return loginDate >= startTime && loginDate <= endTime;
+    }).length;
+    console.log(`Logged-in users in time range: ${loggedInUsersInTimeRange}`);
+
     console.log('Fetching total booked rooms from DynamoDB');
     const bookingsScanParams = { TableName: BOOKINGS_TABLE_NAME, Select: 'COUNT' };
     const bookingsData = await dynamodb.scan(bookingsScanParams).promise();
@@ -91,7 +100,7 @@ async function fetchData() {
     const bookingsCountInTimeRange = timeRangeData.Count;
     console.log(`Bookings count in time range: ${bookingsCountInTimeRange}`);
 
-    return { totalUsers, activeUsers, totalBookedRooms, bookingsCountInTimeRange };
+    return { totalUsers, activeUsers, totalBookedRooms, bookingsCountInTimeRange, loggedInUsersInTimeRange };
 }
 
 async function fetchGCPCredentials(paramName) {
@@ -100,7 +109,7 @@ async function fetchGCPCredentials(paramName) {
     return JSON.parse(gcpCredentialsParam.Parameter.Value);
 }
 
-async function insertDataIntoBigQuery({ totalUsers, activeUsers, totalBookedRooms, bookingsCountInTimeRange, gcpCredentials }) {
+async function insertDataIntoBigQuery({ totalUsers, activeUsers, totalBookedRooms, bookingsCountInTimeRange, loggedInUsersInTimeRange, gcpCredentials }) {
     const bigquery = new BigQuery({
         credentials: gcpCredentials,
         projectId: gcpCredentials.project_id
@@ -115,6 +124,7 @@ async function insertDataIntoBigQuery({ totalUsers, activeUsers, totalBookedRoom
         active_users: activeUsers,
         total_booked_rooms: totalBookedRooms,
         bookings_count_in_time_range: bookingsCountInTimeRange,
+        logged_in_users_in_time_range: loggedInUsersInTimeRange,
         timestamp: new Date().toISOString()
     }];
 
@@ -149,6 +159,7 @@ async function ensureBigQueryTableExists(bigquery, datasetName, tableName) {
                 { name: 'active_users', type: 'INTEGER' },
                 { name: 'total_booked_rooms', type: 'INTEGER' },
                 { name: 'bookings_count_in_time_range', type: 'INTEGER' },
+                { name: 'logged_in_users_in_time_range', type: 'INTEGER' },
                 { name: 'timestamp', type: 'TIMESTAMP' }
             ]
         });
