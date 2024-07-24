@@ -58,10 +58,10 @@ execute_cloudformation:
   stage: execute_cloudformation
   before_script:
     - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-  script:
+    - source ~/.bashrc
     - nvm install 20
     - npm install -g @cumulusds/aws-cloudformation-wait-ready
-    - aws --version
+  script:
     - aws cloudformation deploy --template-file ./infrastructure/PreDeployStack.yaml --stack-name PreDeployStack --capabilities CAPABILITY_NAMED_IAM;
     - aws-cloudformation-wait-ready --region us-east-1 --stack-name PreDeployStack
     - aws s3 cp Lambdas/output/ s3://csci-5410-s24-sdp-5-lambda-code/ --recursive
