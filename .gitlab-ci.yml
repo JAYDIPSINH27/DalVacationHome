@@ -2,6 +2,7 @@ stages:
   - install
   - build_cloudformation
   - execute_cloudformation
+  - deploy_lambda_code
 
 install_dependencies:
   # when: manual
@@ -53,7 +54,6 @@ build_cloudformation:
     - main
 
 execute_cloudformation:
-  when: manual
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
   stage: execute_cloudformation
   before_script:
@@ -72,13 +72,13 @@ execute_cloudformation:
 
     - aws cloudformation deploy --template-file ./infrastructure/PostDeployStack.yaml --stack-name PostDeployStack --capabilities CAPABILITY_NAMED_IAM;
     - aws-cloudformation-wait-ready --region us-east-1 --stack-name PostDeployStack
+  only:
+    - main
 
-    # Deploy API Gateway stage
-    # - REST_API_ID=$(aws cloudformation describe-stack-resource --stack-name ApiDeploymentStack --logical-resource-id myApiGateway --query "StackResourceDetail.PhysicalResourceId" --output text)
-    # - if [ -n "$REST_API_ID" ]; then
-    #     aws apigateway create-deployment --rest-api-id $REST_API_ID --stage-name dev;
-    #   else
-    #     echo "API Gateway REST API ID not found"; exit 1;
-    #   fi
+deploy_lambda_code:
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  stage: deploy_lambda_code
+  script:
+    - sh ./infrastructure/deploy-lambda.sh
   only:
     - main
