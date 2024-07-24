@@ -5,6 +5,7 @@ const client = new DynamoDBClient({});
 const dynamodb = DynamoDBDocumentClient.from(client);
 
 const handler = async (event) => {
+    console.log('GET /rooms');
     try {
         // Parameters for scanning the DynamoDB table
         const params = {
