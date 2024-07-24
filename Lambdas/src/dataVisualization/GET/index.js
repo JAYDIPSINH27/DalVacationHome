@@ -6,9 +6,9 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();  // Create DynamoDB Document
 const ssm = new AWS.SSM();  // Create SSM service instance
 
 // Define constants for various AWS services and BigQuery
-const USER_POOL_ID = "us-east-1_qHroeVVYU";
+const USER_POOL_ID = "us-east-1_1gMhUA7Dk";
 const BOOKINGS_TABLE_NAME = "BookingsTable";
-const USER_LOGIN_TABLE_NAME = "UserLogin";
+const USER_LOGIN_TABLE_NAME = "login_data";
 const GCP_CREDENTIALS_PARAM_NAME = "gcpcredentials";
 const BIGQUERY_DATASET = "UserLogin";
 const BIGQUERY_TABLE = "statistic";
