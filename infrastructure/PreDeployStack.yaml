@@ -1,0 +1,106 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS Initial Infrastructure
+
+Resources:
+  LambdaCodeBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: 'csci-5410-s24-sdp-5-lambda-code'
+
+  CaesarKeysTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: caesar_keys
+      AttributeDefinitions:
+        - AttributeName: username
+          AttributeType: S
+      KeySchema:
+        - AttributeName: username
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  LoginDataTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: login_data
+      AttributeDefinitions:
+        - AttributeName: username
+          AttributeType: S
+      KeySchema:
+        - AttributeName: username
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  QuestionBankTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: question_bank
+      AttributeDefinitions:
+        - AttributeName: q_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: q_id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  RoomsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: rooms
+      AttributeDefinitions:
+        - AttributeName: room_number
+          AttributeType: N
+      KeySchema:
+        - AttributeName: room_number
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  SecurityQuestionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: security_questions
+      AttributeDefinitions:
+        - AttributeName: username
+          AttributeType: S
+      KeySchema:
+        - AttributeName: username
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  BookingsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: BookingsTable
+      AttributeDefinitions:
+        - AttributeName: bookingId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: bookingId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  FeedbackTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Feedback
+      AttributeDefinitions:
+        - AttributeName: feedbackId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: feedbackId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
