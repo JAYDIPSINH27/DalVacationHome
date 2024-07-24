@@ -1,8 +1,8 @@
 import { CognitoUserPool, CognitoUser, AuthenticationDetails } from 'amazon-cognito-identity-js';
 
 const poolData = {
-    UserPoolId: 'us-east-1_L7Hw0SRwb', // e.g., 'us-east-1_ABC123'
-    ClientId: '5iiuu5u8sf0b3cm2rdc4t414hv', // e.g., '1h2j3k4l5m6n7o8p9q'
+    UserPoolId: import.meta.env.VITE_COGNITO_USER_POOL_ID, // e.g., 'us-east-1_ABC123'
+    ClientId: import.meta.env.VITE_COGNITO_CLIENT_ID, // e.g., '1h2j3k4l5m6n7o8p9q'
   };
 
 const store = {};
