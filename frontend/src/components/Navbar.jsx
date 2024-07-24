@@ -57,9 +57,20 @@ export default function Navbar() {
                         >
                             Dashboard
                         </Button>
+                        <Button color="inherit" component={Link} to="/statistics">
+                            Statistics
+                        </Button>
                         <Button color="inherit" component={Link} to="/tickets">
                             Assigned Tickets
                         </Button>
+                        <Button color="inherit" component={Link} to="/reviews">
+                            Review
+                        </Button>
+                        <Button color="inherit" component={Link} to="/sentiment">
+                            USer Sentiment
+                        </Button>
+
+
                     </>
                 ) : (
                     <>
@@ -72,6 +83,9 @@ export default function Navbar() {
                         </Button>
                         <Button color="inherit" component={Link} to="/bookings">
                             Bookings
+                        </Button>
+                        <Button color="inherit" component={Link} to="/sentiment">
+                            USer Sentiment
                         </Button>
                     </>
                 )}

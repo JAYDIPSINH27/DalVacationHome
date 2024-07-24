@@ -27,6 +27,10 @@ import RoomDetails from "./pages/RoomDetails";
 import RoomBookings from "./pages/RoomBookings";
 import TicketDetails from "./pages/TicketDetails";
 import AgentTickets from "./pages/AgentTickets";
+import AgentSentiment from "./components/AgentSentiment";
+import AgentReviews from "./components/AgentReviews";
+import AgentStatistics from './components/AgentStatistics'
+
 const queryClient = new QueryClient();
 
 const PrivateRoute = ({ children, isAuthenticated }) => {
@@ -47,7 +51,6 @@ const AppRouter = ({ loggedInRole }) => {
                         !loggedInRole ? <Navigate to="/roomListing" /> : <Navigate to="/app" />
                     }
                 />
-                <Route path="/roomDetails" element={<RoomDetails />} />
                 <Route path="/roomListing" element={< RoomListing/>} />
                 <Route path="/room/:roomId" element={<RoomDetail />} />
                 <Route path="/ticket/:ticketId" element={<TicketDetails />} />
@@ -83,7 +86,10 @@ const AppRouter = ({ loggedInRole }) => {
                 />
                 <Route path="/dashboard" element={<AgentDashboard/>} />
                 <Route path="/clientQuery" element={<ChatClient/>} />
+                <Route path="/sentiment" element={<AgentSentiment/>} />
+                <Route path="/reviews" element={<AgentReviews/>} />
                 <Route path="/tickets" element={<AgentTickets/>} />
+                <Route path="/statistics" element={<AgentStatistics/>} />
                 <Route path="*" element={<PageNotFound/>} />
             </Routes>
         </BrowserRouter>
