@@ -18,7 +18,7 @@ install_dependencies:
           echo "No package.json found in $dir. Skipping npm install."
         fi
       done
-    - cd Lambdas/extra_lambdas/node
+    - cd ../extra_lambdas/node
     - >
       find . -type d | while read dir; do
         if [ -f "$dir/package.json" ]; then
