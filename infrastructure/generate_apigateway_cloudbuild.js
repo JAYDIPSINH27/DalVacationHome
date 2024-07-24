@@ -39,7 +39,14 @@ const generateFunctionYamlCode = (functionName, runtime = 'nodejs20.x', handler 
             Timeout: 60
             Environment: 
                 Variables: 
-                    AWS_ACCOUNT_ID: ${AWS_ACCOUNT_ID}`
+                    AWS_ACCOUNT_ID: ${AWS_ACCOUNT_ID}
+                    
+    ${functionName}InvokePermission:
+        Type: 'AWS::Lambda::Permission'
+        Properties:
+        FunctionName: !Ref ${functionName}
+        Action: 'lambda:InvokeFunction'
+        Principal: '*'`
     return initialCode;
 }
 
@@ -113,14 +120,7 @@ const generateApiGatewayMethodYamlCode = (methodName, method, resource, gateway,
             Integration:
                 IntegrationHttpMethod: POST
                 Type: AWS_PROXY
-                Uri: !Sub arn:aws:apigateway:\${AWS::Region}:lambda:path/2015-03-31/functions/\${${lambdaFunctionName}.Arn}/invocations
-    ${methodName}LambdaPermissionApiGateway:
-        Type: AWS::Lambda::Permission
-        Properties:
-            Action: "lambda:InvokeFunction"
-            FunctionName: !Ref ${lambdaFunctionName}
-            Principal: "apigateway.amazonaws.com"
-            SourceArn: !Sub "arn:aws:execute-api:\${AWS::Region}:\${AWS::AccountId}:\${${gateway}}/*"`
+                Uri: !Sub arn:aws:apigateway:\${AWS::Region}:lambda:path/2015-03-31/functions/\${${lambdaFunctionName}.Arn}/invocations`
 }
 
 const generateApiGatewayDeploymentYamlCode = (gateway, dependsOn) => {
