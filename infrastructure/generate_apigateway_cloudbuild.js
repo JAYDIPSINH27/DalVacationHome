@@ -44,9 +44,9 @@ const generateFunctionYamlCode = (functionName, runtime = 'nodejs20.x', handler 
     ${functionName}InvokePermission:
         Type: 'AWS::Lambda::Permission'
         Properties:
-        FunctionName: !Ref ${functionName}
-        Action: 'lambda:InvokeFunction'
-        Principal: '*'`
+            FunctionName: !Ref ${functionName}
+            Action: 'lambda:InvokeFunction'
+            Principal: '*'`
     return initialCode;
 }
 
