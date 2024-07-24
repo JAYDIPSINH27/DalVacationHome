@@ -3,6 +3,9 @@ WORKDIR /app
 COPY package.json .
 RUN npm install
 COPY . .
+ENV VITE_API_BASE_URL=https://hmemmeyh1b.execute-api.us-east-1.amazonaws.com/dev
+ENV VITE_COGNITO_USER_POOL_ID=us-east-1_1gMhUA7Dk
+ENV VITE_COGNITO_CLIENT_ID=o34gskfq8rhs79510f4totqe7
 RUN npm run build
 
 FROM nginx:alpine
