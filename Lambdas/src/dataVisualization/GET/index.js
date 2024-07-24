@@ -9,7 +9,7 @@ const ssm = new AWS.SSM();  // Create SSM service instance
 const USER_POOL_ID = "us-east-1_qHroeVVYU";
 const BOOKINGS_TABLE_NAME = "BookingsTable";
 const USER_LOGIN_TABLE_NAME = "UserLogin";
-const GCP_CREDENTIALS_PARAM_NAME = "gcp-credentials";
+const GCP_CREDENTIALS_PARAM_NAME = "gcpcredentials";
 const BIGQUERY_DATASET = "UserLogin";
 const BIGQUERY_TABLE = "statistic";
 
