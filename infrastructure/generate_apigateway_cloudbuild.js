@@ -165,7 +165,7 @@ function readDirectoryAndGenerateTemplate(dir, parentPath = '') {
         generated_function_names.push(`${functionName}Method`);
         content += generateFunctionYamlCode(functionName);
         content += generateApiGatewayMethodYamlCode(`${functionName}Method`, method, parentPath, API_GATEWAY_NAME, functionName);
-        generated_function_names.push(`${functionName}MethodLambdaPermissionApiGateway`);
+        generated_function_names.push(`${functionName}InvokePermission`);
 
         const zipPath = `${LAMBDA_ZIP_DIR}/${functionName}.zip`
         zipDirectory(fullPath, zipPath).then(() => {
