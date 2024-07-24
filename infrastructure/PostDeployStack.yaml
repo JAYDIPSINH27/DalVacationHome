@@ -48,7 +48,7 @@ Resources:
         DefineAuthChallenge: arn:aws:lambda:us-east-1:845434235447:function:DefineAuthChallengeIac
         PostAuthentication: arn:aws:lambda:us-east-1:845434235447:function:PostAuthTriggerIac
         PostConfirmation: arn:aws:lambda:us-east-1:845434235447:function:PostConfTriggerIac
-        PreSignUp: arn:aws:lambda:us-east-1:845434235447:function:PreSignUpTriggerIac
+        PreSignUp: arn:aws:lambda:us-east-1:845434235447:function:PreSignupTriggerIac
         VerifyAuthChallengeResponse: arn:aws:lambda:us-east-1:845434235447:function:VerifyAuthChallengeIac
       EmailConfiguration:
         EmailSendingAccount: "COGNITO_DEFAULT"
