@@ -10,7 +10,7 @@ FILES=$(aws s3 ls s3://$BUCKET_NAME/ --recursive | awk '{print $4}')
 
 # Loop through each file and update the corresponding Lambda function
 for FILE in $FILES; do
-    if [[ $FILE == *.zip ]]; then
+    if echo $FILE | grep -q ".zip$"; then
         FUNCTION_NAME=$(basename $FILE .zip)
         echo "Updating Lambda function: $FUNCTION_NAME with file: $FILE"
         
