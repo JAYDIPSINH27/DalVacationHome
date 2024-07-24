@@ -2,6 +2,7 @@ import React from "react"
 import { useNavigate } from "react-router-dom";
 import { ReactTyped } from "react-typed";
 
+
 function LandingPage() {
 
   const navigate = useNavigate();
