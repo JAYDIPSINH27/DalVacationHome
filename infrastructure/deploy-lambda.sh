@@ -16,10 +16,8 @@ for FILE in $FILES; do
         
         # Update Lambda function code
         aws lambda update-function-code --function-name $FUNCTION_NAME --s3-bucket $BUCKET_NAME --s3-key $FILE --region $REGION
-
-        # Deploy the changes to the specified stage (assuming API Gateway deployment)
-        aws apigateway create-deployment --rest-api-id $(aws apigateway get-rest-apis --query "items[?name=='$FUNCTION_NAME'].id" --output text) --stage-name $STAGE_NAME --region $REGION
     fi
 done
-
+ # Deploy the changes to the specified stage (assuming API Gateway deployment)
+aws apigateway create-deployment --rest-api-id hmemmeyh1b --stage-name $STAGE_NAME --region $REGION
 echo "All Lambda functions updated and deployed."
