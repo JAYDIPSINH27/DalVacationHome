@@ -36,7 +36,7 @@ const generateFunctionYamlCode = (functionName, runtime = 'nodejs20.x', handler 
                 S3Key: ${functionName}.zip
             Runtime: ${runtime}
             FunctionName: ${functionName}
-            Timeout: 900
+            Timeout: 60
             Environment: 
                 Variables: 
                     AWS_ACCOUNT_ID: ${AWS_ACCOUNT_ID}`

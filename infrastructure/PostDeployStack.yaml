@@ -6,6 +6,7 @@ Resources:
     Type: AWS::SQS::Queue
     Properties:
       QueueName: DalVacationBooking
+      VisibilityTimeout: 60
 
   DalVacationBookingLambdaEventSourceMapping:
     Type: AWS::Lambda::EventSourceMapping
