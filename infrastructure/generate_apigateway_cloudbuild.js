@@ -46,7 +46,15 @@ const generateFunctionYamlCode = (functionName, runtime = 'nodejs20.x', handler 
         Properties:
             FunctionName: !Ref ${functionName}
             Action: 'lambda:InvokeFunction'
-            Principal: '*'`
+            Principal: 'apigateway.amazonaws.com'
+            SourceArn: !Sub arn:aws:execute-api:\${AWS::Region}:${AWS_ACCOUNT_ID}:*
+    ${functionName}InvokePermissionCognito:
+        Type: 'AWS::Lambda::Permission'
+        Properties:
+            FunctionName: !Ref ${functionName}
+            Action: 'lambda:InvokeFunction'
+            Principal: 'cognito-idp.amazonaws.com'
+            SourceArn: !Sub arn:aws:cognito-idp:\${AWS::Region}:${AWS_ACCOUNT_ID}:userpool/*`
     return initialCode;
 }
 
