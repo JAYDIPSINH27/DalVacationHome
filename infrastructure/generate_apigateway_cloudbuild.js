@@ -198,7 +198,7 @@ const generateExtraFunction = (src, runtime) => {
         const functionName = item;
         console.log(`Generating CloudFormation template for ${functionName}`);
         //generated_function_names.push(functionName);
-        content += generateFunctionYamlCode(functionName, runtime, runtime === 'python3.12' ? `${functionName}.lambda_handler` : undefined);
+        content += generateFunctionYamlCode(functionName, runtime, runtime === 'python3.12' ? `lambda_function.lambda_handler` : undefined);
         const zipPath = `${LAMBDA_ZIP_DIR}/${functionName}.zip`
         zipDirectory(fullPath, zipPath).then(() => {
             console.log(`Created zip file: ${zipPath}`);
