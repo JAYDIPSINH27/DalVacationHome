@@ -116,7 +116,8 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <CircularProgress />;
+    return <div >
+        <Navbar/><CircularProgress /></div>;
   }
 
   if (error) {

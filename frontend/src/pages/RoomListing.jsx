@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import { toast } from "react-toastify";
@@ -13,6 +13,16 @@ function RoomListing() {
   const [availableRooms, setAvailableRooms] = useState([]);
 
   const isSearchDisabled = !startDate || !endDate;
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    const dayAfterTomorrow = new Date();
+    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
+    const dayAfterTomorrowString = dayAfterTomorrow.toISOString().split("T")[0];
+    console.log("Today:", today, dayAfterTomorrowString);
+    setStartDate(today);
+    setEndDate(dayAfterTomorrowString);
+    handleSearch();
+  }, []);
 
   const navigate = useNavigate();
 

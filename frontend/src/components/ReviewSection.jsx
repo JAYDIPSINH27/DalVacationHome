@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Typography, Avatar, TextField, Button, Paper } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const sentimentColors = {
     positive: 'green',
@@ -62,9 +63,10 @@ function ReviewSection({ isLoggedIn }) {
             <Typography variant="h5" gutterBottom>Reviews</Typography>
             {reviews?.map((review) => (
                 <Paper key={review.userId} elevation={2} sx={{ p: 2, mb: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                        <Avatar sx={{ mr: 2 }}>U</Avatar>
-                        <Typography variant="subtitle1">{review.userName}</Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+                        <div className='flex items-center'><Avatar sx={{ mr: 2 }}>U</Avatar>
+                        <Typography variant="subtitle1">{review.userName}</Typography></div>
+                        <Button variant='contained' component={Link} to="/sentiment">Check sentiment</Button>
                     </Box>
                     <Typography 
                         variant="body1" 
