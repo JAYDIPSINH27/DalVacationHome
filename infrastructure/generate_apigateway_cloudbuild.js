@@ -65,6 +65,8 @@ const generateApiGatewayYamlCode = (apiGatewayName) => {
         Properties:
             Name: ${apiGatewayName}
             Description: Sample API Gateway
+            BinaryMediaTypes:
+                - "multipart/form-data"
             EndpointConfiguration:
                 Types:
                     - "REGIONAL"`

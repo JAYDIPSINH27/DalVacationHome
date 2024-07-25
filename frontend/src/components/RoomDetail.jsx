@@ -28,6 +28,9 @@ function RoomDetail() {
     };
 
     const isDateAvailable = (date) => {
+        const  yesterday = new Date();
+        if (date < yesterday) return false;
+        if (room.dates.length === 0) return true;
         return room.dates.some(({ StartDate, EndDate }) => {
             const start = new Date(StartDate);
             const end = new Date(EndDate);

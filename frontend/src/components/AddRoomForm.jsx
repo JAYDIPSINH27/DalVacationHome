@@ -18,6 +18,7 @@ const AddRoomForm = ({ room, onSave, onClose }) => {
     const [capacity, setCapacity] = useState("");
     const [type, setType] = useState("room");
     const [image, setImage] = useState("");
+    const formRef = React.createRef();
 
     useEffect(() => {
         if (room) {
@@ -40,12 +41,13 @@ const AddRoomForm = ({ room, onSave, onClose }) => {
             image,
             room_number,
             type,
+            formRef
         });
         onClose();
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit} ref={formRef}>
             <TextField
                 label="Room Name"
                 value={name}
@@ -91,6 +93,7 @@ const AddRoomForm = ({ room, onSave, onClose }) => {
                 <label>Room Image</label>
                 <br />
                 <input
+                    id="image"
                     type="file"
                     accept="image/*"
                     onChange={(e) => setImage(e.target.files)}

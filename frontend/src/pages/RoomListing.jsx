@@ -30,9 +30,10 @@ function RoomListing() {
     );
 
     axios
-      .get(`https://u73vi9w6la.execute-api.us-east-1.amazonaws.com/dev/rooms`)
+      .get(`${import.meta.env.VITE_API_BASE_URL}/rooms`)
       .then((response) => {
-        const roomsData = JSON.parse(response.data.body);
+        console.log("Rooms data:", response.data);
+        const roomsData = response.data;
         setRoomsData(roomsData);
 
         
@@ -110,10 +111,10 @@ function RoomListing() {
         {/* Display available rooms in grid */}
         <div className="mt-4 grid grid-cols-4 gap-4 p-10">
           {availableRooms.map((room, index) => {
-                        // Ensure amenities is an array
-                        const amenitiesArray = Array.isArray(room.amenities)
-                        ? room.amenities
-                        : Object.values(room.amenities);
+                        // // Ensure amenities is an array
+                        // const amenitiesArray = Array.isArray(room.amenities)
+                        // ? room.amenities
+                        // : Object.values(room.amenities);
             return (
             <div
               key={index}

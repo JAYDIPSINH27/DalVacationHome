@@ -42,7 +42,7 @@ export const handler = async (event) => {
     const uploadParams = {
       Bucket: BUCKET_NAME,
       Key: imageKey,
-      Body: Buffer.from(image.content, 'binary'),
+      Body: image.content,
       ContentType: image.contentType
     };
     const imageUploadResult = await s3.send(new PutObjectCommand(uploadParams));

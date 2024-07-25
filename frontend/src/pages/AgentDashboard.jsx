@@ -34,12 +34,13 @@ const AgentDashboard = () => {
     };
 
     const handleAddRoom = async (room) => {
+        console.log("form", room.formRef.current[10].files[0])
         const roomData = {
             name: room.name,
             description: room.description,
             price: room.price,
             capacity: room.capacity,
-            image: room.image[0],
+            image: room.formRef.current[10].files[0],
             type: room.type,
         };
         try {
