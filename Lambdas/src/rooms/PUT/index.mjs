@@ -7,7 +7,7 @@ import { unmarshall } from '@aws-sdk/util-dynamodb';
 const s3 = new S3Client();
 const dynamoDB = new DynamoDBClient();
 
-const BUCKET_NAME = 'csci5410-s24-sdp-5-room-images';
+const BUCKET_NAME = 'csci5410-s24-sdp-5-room-images-shubhampawar';
 const TABLE_NAME = 'rooms';
 
 export const handler = async (event) => {
