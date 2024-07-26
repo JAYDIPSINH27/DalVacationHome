@@ -1,31 +1,39 @@
-import {
-  LexRuntimeV2Client,
-  RecognizeTextCommand,
-} from "@aws-sdk/client-lex-runtime-v2";
+import AWS from "aws-sdk";
 
-const lexClient = new LexRuntimeV2Client({
-    region: "us-east-1",
-    credentials: {
-      accessKeyId: import.meta.env.VITE_APP_AWS_ACCESS_KEY_ID,
-      secretAccessKey: import.meta.env.VITE_APP_AWS_SECRET_ACCESS_KEY,
-    },
-  });
+AWS.config.update({
+  region: "us-east-1",
+  accessKeyId: import.meta.env.VITE_APP_AWS_ACCESS_KEY_ID,
+  secretAccessKey: import.meta.env.VITE_APP_AWS_SECRET_ACCESS_KEY,
+});
 
-export const sendMessageToLex = async (message, sessionId) => {
+const lexRuntime = new AWS.LexRuntime();
+
+export const sendMessageToLex = async (message, sessionId, userRole, userId) => {
+  // Set default values if any of the parameters are undefined
+  const effectiveSessionId = sessionId || "unknown";
+  const effectiveUserRole = userRole || "unknown";
+  const effectiveUserId = userId || "unknown";
+
+  console.log(effectiveSessionId);
+  console.log(effectiveUserRole);
+  console.log(effectiveUserId);
+
   const params = {
-    botAliasId: "TSTALIASID",
-    botId: "0NW7NZXY0B",
-    localeId: "en_US",
-    sessionId,
-    text: message,
+    botName: "DalVactionHome",
+    botAlias: "prod",
+    userId: effectiveUserId,  
+    inputText: message,
+    sessionAttributes: {
+      "userRole": effectiveUserRole,
+      "sessionId": effectiveSessionId
+    }
   };
 
   try {
-    const command = new RecognizeTextCommand(params);
-    const response = await lexClient.send(command);
-    return response;
+    const response = await lexRuntime.postText(params).promise();
+    return response.message;
   } catch (error) {
-    console.error("Error sending message to Lex:", error);
+    console.error('Error sending message to Lex:', error);
     throw error;
   }
 };

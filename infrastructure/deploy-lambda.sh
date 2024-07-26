@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-BUCKET_NAME="csci-5410-s24-sdp-5-lambda-code"  # Replace with your actual bucket name
+BUCKET_NAME="csci-5410-s24-sdp-5-lambda-code-shubhampawar"  # Replace with your actual bucket name
 STAGE_NAME="dev"    # Replace with your actual stage name
 REGION="us-east-1"            # Replace with your AWS region
 
