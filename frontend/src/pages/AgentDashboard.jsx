@@ -96,59 +96,8 @@ const AgentDashboard = () => {
                     Property Agent Dashboard
                 </Typography>
                 <Grid container spacing={4}>
-                    <Grid item xs={12} md={6}>
-                        <Typography variant="h5" gutterBottom>
-                            Room Statistics
-                        </Typography>
-                        {/* <Box
-                            sx={{
-                                position: "relative",
-                                overflow: "hidden",
-                                paddingTop: "56.25%", // Maintain aspect ratio
-                            }}
-                        >
-                            <Box
-                                sx={{
-                                    position: "absolute",
-                                    top: 0,
-                                    left: 0,
-                                    width: "100%",
-                                    height: "100%",
-                                    transform: `scale(${zoomLevel})`,
-                                    transformOrigin: "0 0",
-                                }}
-                            >
-                                <iframe
-                                    title="Room Statistics"
-                                    width="100%"
-                                    height="100%"
-                                    src="https://lookerstudio.google.com/embed/reporting/d552662e-fe00-4355-ae1b-34ba3cae61d1/page/hsl6D"
-                                    frameBorder="0"
-                                    style={{ border: 0 }}
-                                    allowFullScreen
-                                ></iframe>
-                            </Box>
-                            <Box
-                                sx={{
-                                    position: "absolute",
-                                    top: 0,
-                                    right: 0,
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    gap: 1,
-                                    p: 1,
-                                }}
-                            >
-                                <IconButton onClick={handleZoomIn}>
-                                    <ZoomInIcon />
-                                </IconButton>
-                                <IconButton onClick={handleZoomOut}>
-                                    <ZoomOutIcon />
-                                </IconButton>
-                            </Box>
-                        </Box> */}
-                    </Grid>
-                    <Grid item xs={12} md={6}>
+
+                    <Grid item xs={12} md={12}>
                         <Button
                             variant="contained"
                             color="primary"
