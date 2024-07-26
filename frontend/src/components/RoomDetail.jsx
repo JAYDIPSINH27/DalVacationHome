@@ -9,7 +9,6 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format, isWithinInterval } from 'date-fns';
 import { CalendarToday, People, AttachMoney, ExpandMore } from '@mui/icons-material';
-
 function RoomDetail() {
     const { roomId } = useParams();
     const location = useLocation();
@@ -18,15 +17,12 @@ function RoomDetail() {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [openModal, setOpenModal] = useState(false);
-
     const { loading: authLoading, userRole } = useContext(AuthenticationContext);
-
     const handleDateChange = (dates) => {
         const [start, end] = dates;
         setStartDate(start);
         setEndDate(end);
     };
-
     const isDateAvailable = (date) => {
         const  yesterday = new Date();
         if (date < yesterday) return false;
@@ -37,7 +33,6 @@ function RoomDetail() {
             return isWithinInterval(date, { start, end });
         });
     };
-
     const handleBookNow = () => {
         if (userRole) {
             if (startDate && endDate) {
@@ -49,11 +44,9 @@ function RoomDetail() {
             navigate('/login');
         }
     };
-
     const filterDate = (date) => {
         return isDateAvailable(date);
     };
-
     return (
         <>
             <Navbar />
@@ -98,7 +91,7 @@ function RoomDetail() {
                                     <Typography variant="h6">Reviews</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
-                                    <ReviewSection isLoggedIn={!!userRole} />
+                                    <ReviewSection isLoggedIn={!!userRole} room={roomId}/>
                                 </AccordionDetails>
                             </Accordion>
                         </Grid>
@@ -158,5 +151,4 @@ function RoomDetail() {
         </>
     );
 }
-
 export default RoomDetail;
