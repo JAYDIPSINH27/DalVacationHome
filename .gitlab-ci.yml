@@ -65,7 +65,7 @@ execute_cloudformation:
   script:
     - aws cloudformation deploy --template-file ./infrastructure/PreDeployStack.yaml --stack-name PreDeployStack --capabilities CAPABILITY_NAMED_IAM;
     - aws-cloudformation-wait-ready --region us-east-1 --stack-name PreDeployStack
-    - aws s3 cp Lambdas/output/ s3://csci-5410-s24-sdp-5-lambda-code-shubhampawar/ --recursive
+    - aws s3 cp Lambdas/output/ s3://csci-5410-s24-sdp-5-lambda-code/ --recursive
    # Check if ApiDeploymentStack exists
     - aws cloudformation deploy --template-file ./infrastructure/output.yaml --stack-name ApiDeploymentStack --capabilities CAPABILITY_NAMED_IAM;
     - aws-cloudformation-wait-ready --region us-east-1 --stack-name ApiDeploymentStack

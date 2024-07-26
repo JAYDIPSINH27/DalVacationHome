@@ -5,7 +5,7 @@ const archiver = require('archiver');
 const AWS_ACCOUNT_ID = process.env.AWS_ACCOUNT_ID || "654654336786";
 const LAMBDA_EXECUTION_ROLE =  `arn:aws:iam::${AWS_ACCOUNT_ID}:role/LabRole`;
 const LAMBDA_ZIP_DIR = '../Lambdas/output';
-const LAMBDA_CODE_BUCKET = 'csci-5410-s24-sdp-5-lambda-code-shubhampawar';
+const LAMBDA_CODE_BUCKET = 'csci-5410-s24-sdp-5-lambda-code';
 const API_GATEWAY_NAME = 'myApiGateway';
 const generated_function_names = [];
 
