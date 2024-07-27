@@ -13,7 +13,7 @@ Resources:
     Properties:
       BatchSize: 1
       EventSourceArn: !GetAtt DalVacationBookingQueue.Arn
-      FunctionName: arn:aws:lambda:us-east-1:654654336786:function:BookingNotificationIac
+      FunctionName: arn:aws:lambda:us-east-1:845434235447:function:BookingNotificationIac
       Enabled: True
 
   DalVacationPool:
@@ -44,12 +44,12 @@ Resources:
           AttributeDataType: "String"
           Mutable: True
       LambdaConfig:
-        CreateAuthChallenge: arn:aws:lambda:us-east-1:654654336786:function:CreateAuthChallengeIac
-        DefineAuthChallenge: arn:aws:lambda:us-east-1:654654336786:function:DefineAuthChallengeIac
-        PostAuthentication: arn:aws:lambda:us-east-1:654654336786:function:PostAuthTriggerIac
-        PostConfirmation: arn:aws:lambda:us-east-1:654654336786:function:PostConfTriggerIac
-        PreSignUp: arn:aws:lambda:us-east-1:654654336786:function:PreSignupTriggerIac
-        VerifyAuthChallengeResponse: arn:aws:lambda:us-east-1:654654336786:function:VerifyAuthChallengeIac
+        CreateAuthChallenge: arn:aws:lambda:us-east-1:845434235447:function:CreateAuthChallengeIac
+        DefineAuthChallenge: arn:aws:lambda:us-east-1:845434235447:function:DefineAuthChallengeIac
+        PostAuthentication: arn:aws:lambda:us-east-1:845434235447:function:PostAuthTriggerIac
+        PostConfirmation: arn:aws:lambda:us-east-1:845434235447:function:PostConfTriggerIac
+        PreSignUp: arn:aws:lambda:us-east-1:845434235447:function:PreSignupTriggerIac
+        VerifyAuthChallengeResponse: arn:aws:lambda:us-east-1:845434235447:function:VerifyAuthChallengeIac
       EmailConfiguration:
         EmailSendingAccount: "COGNITO_DEFAULT"
 
