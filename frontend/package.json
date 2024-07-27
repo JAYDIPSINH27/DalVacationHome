@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@aws-sdk/client-lex-runtime-v2": "^3.606.0",
+    "@aws-sdk/client-lex-runtime-service": "^3.620.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@google-cloud/dialogflow": "^6.7.0",
@@ -20,7 +20,6 @@
     "@mui/x-date-pickers": "^7.7.1",
     "@tanstack/react-query": "^5.45.1",
     "amazon-cognito-identity-js": "^6.3.12",
-    "aws-sdk": "^2.1664.0",
     "axios": "^1.7.2",
     "date-fns": "^2.30.0",
     "react": "^18.2.0",
