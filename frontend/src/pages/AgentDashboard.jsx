@@ -18,7 +18,6 @@ import AddRoomForm from "../components/AddRoomForm";
 import Navbar from "../components/Navbar";
 import useRooms from "../hooks/useRooms";
 import { toast } from "react-toastify";
-import Chatbot from "../components/Chatbot";
 
 
 const AgentDashboard = () => {
@@ -127,7 +126,6 @@ const AgentDashboard = () => {
                         />
                     </DialogContent>
                 </Dialog>
-                <Chatbot />
             </Container>
         </>
     );

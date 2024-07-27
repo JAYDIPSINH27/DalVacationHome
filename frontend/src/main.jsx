@@ -30,6 +30,7 @@ import AgentTickets from "./pages/AgentTickets";
 import AgentSentiment from "./components/AgentSentiment";
 import AgentReviews from "./components/AgentReviews";
 import AgentStatistics from './components/AgentStatistics'
+import Chatbot from "./components/Chatbot";
 
 const queryClient = new QueryClient();
 
@@ -110,6 +111,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <QueryClientProvider client={queryClient}>
                 <AuthenticationContextProvider>
                     <App />
+                    <Chatbot />
                     <ToastContainer />
                 </AuthenticationContextProvider>
             </QueryClientProvider>

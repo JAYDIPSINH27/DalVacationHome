@@ -1,6 +1,5 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import Chatbot from '../components/Chatbot';
 import { Box } from '@mui/material';
 
 const withNavbar = (WrappedComponent) => {

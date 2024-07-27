@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import Chatbot from "../components/Chatbot";
 
 function RoomListing() {
   const [startDate, setStartDate] = useState("");
@@ -168,7 +167,6 @@ function RoomListing() {
 })}
         </div>
       </div>
-      <Chatbot />
     </>
   );
 }
